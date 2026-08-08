@@ -2,27 +2,10 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Users, Trophy, Target, Briefcase } from "lucide-react";
+import { Briefcase } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Card, CardContent } from "@/components/ui/Card";
-
-const stats = [
-  { label: "Active Students", value: "5,200+", icon: Users, color: "text-indigo-400" },
-  { label: "Projects Built", value: "15,000+", icon: Trophy, color: "text-violet-400" },
-  { label: "Avg Placement", value: "$95k", icon: Target, color: "text-emerald-400" },
-];
-
-const testimonials = [
-  {
-    name: "Sarah Jenkins",
-    role: "Frontend Developer @ TechCorp",
-    quote: "The 60-day challenge completely transformed my portfolio. I went from tutorial hell to building production-ready apps.",
-  },
-  {
-    name: "Michael Chen",
-    role: "Software Engineer",
-    quote: "The rigor of the daily commits forced me to build a real habit. Got hired exactly 3 weeks after finishing.",
-  },
-];
+import { MOCK_TRUST_STATS as stats, MOCK_TESTIMONIALS as testimonials } from "@/lib/mock-data";
 
 export function TrustSection() {
   return (
@@ -57,10 +40,10 @@ export function TrustSection() {
       >
         <div className="flex items-center justify-center gap-6 opacity-60">
           <div className="flex items-center gap-2 text-zinc-400 font-semibold">
-            <Github className="w-5 h-5" /> GitHub
+            <FaGithub className="w-5 h-5" /> GitHub
           </div>
           <div className="flex items-center gap-2 text-zinc-400 font-semibold">
-            <Linkedin className="w-5 h-5" /> LinkedIn
+            <FaLinkedin className="w-5 h-5" /> LinkedIn
           </div>
         </div>
 

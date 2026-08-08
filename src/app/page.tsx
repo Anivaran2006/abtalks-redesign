@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Hero } from "@/components/ui/Hero";
-import { TrustSection } from "@/components/ui/TrustSection";
-import { TimelineSection } from "@/components/ui/TimelineSection";
-import { FeaturesSection } from "@/components/ui/FeaturesSection";
-import { CTASection } from "@/components/ui/CTASection";
+import { Hero } from "@/components/features/landing/Hero";
+import { TrustSection } from "@/components/features/landing/TrustSection";
+import { TimelineSection } from "@/components/features/landing/TimelineSection";
+import { FeaturesSection } from "@/components/features/landing/FeaturesSection";
+import { CTASection } from "@/components/features/landing/CTASection";
 
 export default function Home() {
   return (

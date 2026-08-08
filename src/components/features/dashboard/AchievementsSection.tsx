@@ -2,31 +2,10 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Flame, Upload, Clock, Zap, Crown, Award, Code2, Rocket } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
-
-type Rarity = "Common" | "Rare" | "Epic" | "Legendary";
-
-interface Achievement {
-  id: string;
-  name: string;
-  description: string;
-  icon: React.ElementType;
-  rarity: Rarity;
-  unlocked: boolean;
-}
-
-const achievements: Achievement[] = [
-  { id: "1", name: "First Merge", description: "Successfully push your first commit to the challenge repo.", icon: Upload, rarity: "Common", unlocked: true },
-  { id: "2", name: "7-Day Warrior", description: "Complete a full week of daily challenges without a freeze.", icon: Flame, rarity: "Rare", unlocked: true },
-  { id: "3", name: "Early Bird", description: "Submit your proof of work before 9 AM local time.", icon: Clock, rarity: "Common", unlocked: true },
-  { id: "4", name: "Speed Coder", description: "Complete a Hard challenge in under 30 minutes.", icon: Zap, rarity: "Epic", unlocked: false },
-  { id: "5", name: "Bug Squasher", description: "Resolve 10 consecutive challenges perfectly on the first try.", icon: Code2, rarity: "Epic", unlocked: false },
-  { id: "6", name: "Top 1%", description: "Reach the top 1% of the global leaderboard for the week.", icon: Crown, rarity: "Legendary", unlocked: false },
-  { id: "7", name: "30-Day Master", description: "Hit the halfway mark! 30 days of relentless consistency.", icon: Award, rarity: "Legendary", unlocked: false },
-  { id: "8", name: "Launch Ready", description: "Complete all 60 days. You are ready to get hired.", icon: Rocket, rarity: "Legendary", unlocked: false },
-];
+import { MOCK_ACHIEVEMENTS } from "@/lib/mock-data";
+import { Rarity } from "@/types";
 
 const rarityConfig = {
   Common: { color: "text-zinc-400", bg: "bg-zinc-500/20", border: "border-zinc-500/30", badge: "bg-zinc-800 text-zinc-300" },
@@ -44,7 +23,7 @@ export function AchievementsSection() {
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {achievements.map((acc, i) => {
+        {MOCK_ACHIEVEMENTS.map((acc, i) => {
           const Icon = acc.icon;
           const config = rarityConfig[acc.rarity];
           

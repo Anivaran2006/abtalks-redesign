@@ -2,84 +2,24 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, CheckCircle2, AlertCircle, Link as LinkIcon, Send, Trophy, Flame, Zap } from "lucide-react";
+import { AlertCircle, Link as LinkIcon, Send, Trophy, Flame, Zap } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
-
-function ConfettiEffect() {
-  React.useEffect(() => {
-    import("canvas-confetti").then((module) => {
-      const confetti = module.default;
-      const duration = 3000;
-      const end = Date.now() + duration;
-
-      const frame = () => {
-        confetti({
-          particleCount: 5,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: ['#6366f1', '#a855f7', '#ec4899']
-        });
-        confetti({
-          particleCount: 5,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: ['#6366f1', '#a855f7', '#ec4899']
-        });
-
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
-      };
-      frame();
-    });
-  }, []);
-  return null;
-}
+import { useSubmissionForm } from "@/hooks/useSubmissionForm";
 
 export function SubmissionForm() {
-  const [githubUrl, setGithubUrl] = React.useState("");
-  const [commitUrl, setCommitUrl] = React.useState("");
-  const [linkedinUrl, setLinkedinUrl] = React.useState("");
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [isSuccess, setIsSuccess] = React.useState(false);
-  const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
-
-  const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-    
-    if (!githubUrl) newErrors.github = "GitHub URL is required.";
-    else if (!githubUrl.includes("github.com")) newErrors.github = "Must be a valid GitHub URL.";
-
-    if (!commitUrl) newErrors.commit = "Commit URL is required.";
-    else if (!commitUrl.includes("github.com") || !commitUrl.includes("/commit/")) {
-      newErrors.commit = "Must be a valid GitHub commit URL.";
-    }
-
-    if (!linkedinUrl) newErrors.linkedin = "LinkedIn post URL is required.";
-    else if (!linkedinUrl.includes("linkedin.com/posts/")) {
-      newErrors.linkedin = "Must be a valid LinkedIn post URL.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 1500);
-  };
+  const {
+    githubUrl, setGithubUrl,
+    commitUrl, setCommitUrl,
+    linkedinUrl, setLinkedinUrl,
+    isSubmitting,
+    isSuccess, setIsSuccess,
+    errors, setErrors,
+    handleSubmit
+  } = useSubmissionForm();
 
   if (isSuccess) {
     return (
@@ -88,9 +28,6 @@ export function SubmissionForm() {
         animate={{ opacity: 1, scale: 1 }}
         className="flex flex-col items-center text-center p-8 bg-zinc-950/80 backdrop-blur-xl border border-indigo-500/30 rounded-3xl shadow-2xl shadow-indigo-500/10 relative overflow-hidden w-full max-w-xl mx-auto"
       >
-        {/* Confetti Trigger */}
-        <ConfettiEffect />
-
         {/* Background Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-indigo-500/20 blur-[60px] pointer-events-none" />
 
@@ -167,7 +104,7 @@ export function SubmissionForm() {
             {/* GitHub Repo Field */}
             <div className="space-y-2">
               <label className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
-                <Github className="w-4 h-4" /> GitHub Repository
+                <FaGithub className="w-4 h-4" /> GitHub Repository
               </label>
               <Input 
                 placeholder="https://github.com/username/repo" 
@@ -211,7 +148,7 @@ export function SubmissionForm() {
             {/* LinkedIn Post Field */}
             <div className="space-y-2">
               <label className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
-                <Linkedin className="w-4 h-4" /> LinkedIn Post URL
+                <FaLinkedin className="w-4 h-4" /> LinkedIn Post URL
               </label>
               <Input 
                 placeholder="https://www.linkedin.com/posts/..." 

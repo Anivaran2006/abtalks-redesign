@@ -6,6 +6,7 @@ import { Clock, Code2, ArrowRight, Zap } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import Link from "next/link";
 
 interface TaskCardProps {
   dayNumber: number;
@@ -73,10 +74,12 @@ export function TaskCard({ dayNumber, title, difficulty, estTime, skills }: Task
         </CardContent>
         
         <CardFooter className="relative z-10">
-          <Button variant="primary" className="w-full gap-2 text-base h-12 group">
-            Continue Challenge
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <Link href={`/day/${dayNumber}`} className="w-full">
+            <Button variant="primary" className="w-full gap-2 text-base h-12 group">
+              Continue Challenge
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </motion.div>

@@ -5,22 +5,7 @@ import { motion } from "framer-motion";
 import { Trophy, ArrowUp, ArrowDown, Minus, Crown } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
-
-interface LeaderboardEntry {
-  rank: number;
-  name: string;
-  xp: number;
-  trend: "up" | "down" | "flat";
-  isCurrentUser?: boolean;
-}
-
-const mockLeaderboard: LeaderboardEntry[] = [
-  { rank: 40, name: "Sarah J.", xp: 14850, trend: "up" },
-  { rank: 41, name: "Michael C.", xp: 14620, trend: "down" },
-  { rank: 42, name: "You", xp: 14500, trend: "up", isCurrentUser: true },
-  { rank: 43, name: "David K.", xp: 14100, trend: "flat" },
-  { rank: 44, name: "Emma W.", xp: 13950, trend: "up" },
-];
+import { MOCK_LEADERBOARD } from "@/lib/mock-data";
 
 export function Leaderboard() {
   return (
@@ -46,7 +31,7 @@ export function Leaderboard() {
       
       <CardContent className="pt-4 relative z-10 p-0">
         <div className="flex flex-col">
-          {mockLeaderboard.map((user, idx) => (
+          {MOCK_LEADERBOARD.map((user, idx) => (
             <motion.div
               key={user.rank}
               initial={{ opacity: 0, x: -20 }}

@@ -7,38 +7,22 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Button } from "@/components/ui/Button";
 import { Progress } from "@/components/ui/Progress";
 import { Badge } from "@/components/ui/Badge";
-import { StreakCard } from "@/components/ui/StreakCard";
-import { TaskCard } from "@/components/ui/TaskCard";
-import { AIMentorCard } from "@/components/ui/AIMentorCard";
+import { StreakCard } from "@/components/features/dashboard/StreakCard";
+import { TaskCard } from "@/components/features/dashboard/TaskCard";
+import { AIMentorCard } from "@/components/features/dashboard/AIMentorCard";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { MOCK_DASHBOARD_DATA as MOCK_DATA } from "@/lib/mock-data";
 
-const ChallengeCalendar = dynamic(() => import("@/components/ui/ChallengeCalendar").then(m => m.ChallengeCalendar), { 
+const ChallengeCalendar = dynamic(() => import("@/components/features/dashboard/ChallengeCalendar").then(m => m.ChallengeCalendar), { 
   loading: () => <div className="h-64 rounded-3xl bg-white/5 animate-pulse" /> 
 });
-const AchievementsSection = dynamic(() => import("@/components/ui/AchievementsSection").then(m => m.AchievementsSection), { 
+const AchievementsSection = dynamic(() => import("@/components/features/dashboard/AchievementsSection").then(m => m.AchievementsSection), { 
   loading: () => <div className="h-48 rounded-3xl bg-white/5 animate-pulse" /> 
 });
-const Leaderboard = dynamic(() => import("@/components/ui/Leaderboard").then(m => m.Leaderboard), { 
+const Leaderboard = dynamic(() => import("@/components/features/dashboard/Leaderboard").then(m => m.Leaderboard), { 
   loading: () => <div className="h-80 rounded-3xl bg-white/5 animate-pulse" /> 
 });
-
-const MOCK_DATA = {
-  streak: 15,
-  totalDays: 60,
-  completedDays: 15,
-  todayChallenge: {
-    title: "Build a Rate Limiter Middleware",
-    difficulty: "Hard",
-    estTime: "45 mins",
-    skills: ["Node.js", "Redis", "Express"],
-  },
-  achievements: [
-    { name: "7-Day Warrior", icon: Flame, color: "text-orange-400" },
-    { name: "First Merge", icon: Upload, color: "text-indigo-400" },
-    { name: "Early Bird", icon: Clock, color: "text-emerald-400" },
-  ]
-};
 
 export default function DashboardPage() {
   const progressPercent = (MOCK_DATA.completedDays / MOCK_DATA.totalDays) * 100;
@@ -108,7 +92,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </motion.div>
-      </div>
+      </section>
 
       {/* Today's Challenge */}
       <motion.div
@@ -139,7 +123,7 @@ export default function DashboardPage() {
         <Button variant="secondary" className="flex-1 gap-2 border-white/10 group">
           <BarChart3 className="w-4 h-4 text-fuchsia-400 group-hover:scale-110 transition-transform" /> Leaderboard
         </Button>
-      </motion.div>
+      </motion.nav>
 
       {/* Leaderboard */}
       <motion.section
