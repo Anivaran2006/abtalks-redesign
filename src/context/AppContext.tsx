@@ -88,7 +88,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem("abtalks_state");
     if (saved) {
       try {
-        setState(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setState((prev) => ({ ...prev, ...parsed }));
       } catch (e) {
         console.error("Failed to parse local storage state", e);
       }

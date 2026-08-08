@@ -76,7 +76,7 @@ export default function ChatPage() {
           </div>
           
           <AnimatePresence initial={false}>
-            {chatHistory.map((msg, index) => {
+            {(chatHistory || []).map((msg, index) => {
               const isUser = msg.role === "user";
               return (
                 <motion.div
