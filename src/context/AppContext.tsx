@@ -32,8 +32,8 @@ type AppContextType = AppState & {
 };
 
 const INITIAL_MOCK_STATE: AppState = {
-  user: null,
-  isAuthenticated: false,
+  user: { name: "Alex", email: "alex@example.com" },
+  isAuthenticated: true,
   submittedDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   streak: 11,
   xp: 14000,

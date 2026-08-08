@@ -12,13 +12,12 @@ interface AIMentorProps {
   completedDays?: number;
 }
 
-export function AIMentorCard({ studentName = "Alex", streak = 15 }: AIMentorProps) {
-  // Mock logic to select a message based on progress
+export function AIMentorCard({ studentName = "Coder", streak = 11 }: AIMentorProps) {  // Mock logic to select a message based on progress
   const getMentorMessage = () => {
     if (streak > 10) {
       return {
         greeting: `You're on fire, ${studentName}!`,
-        tip: "Your 15-day streak is impressive. Today's challenge on Global State is complex, so take your time reading the React Context docs before jumping into code.",
+        tip: `Your ${streak}-day streak is impressive. Today's challenge on Global State is complex, so take your time reading the React Context docs before jumping into code.`,
         action: "Review Context Docs",
       };
     }

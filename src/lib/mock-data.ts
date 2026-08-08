@@ -2,9 +2,9 @@ import { Flame, Upload, Clock, Zap, Crown, Award, Code2, Rocket, Trophy, Target,
 import { Achievement, DashboardData, LeaderboardEntry, StatItem, Testimonial } from "@/types";
 
 export const MOCK_DASHBOARD_DATA: DashboardData = {
-  streak: 15,
+  streak: 11,
   totalDays: 60,
-  completedDays: 15,
+  completedDays: 11,
   todayChallenge: {
     title: "Build a Rate Limiter Middleware",
     difficulty: "Hard",
@@ -40,7 +40,7 @@ export const MOCK_LEADERBOARD: LeaderboardEntry[] = [
 export const MOCK_TRUST_STATS: StatItem[] = [
   { label: "Active Students", value: "5,200+", icon: Users, color: "text-indigo-400" },
   { label: "Projects Built", value: "15,000+", icon: Trophy, color: "text-violet-400" },
-  { label: "Avg Placement", value: "$95k", icon: Target, color: "text-emerald-400" },
+  { label: "Duration", value: "60 Days", icon: Target, color: "text-emerald-400" },
 ];
 
 export const MOCK_TESTIMONIALS: Testimonial[] = [
