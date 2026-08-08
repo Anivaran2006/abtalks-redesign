@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 import { useAppContext } from "@/context/AppContext";
 import { Lock } from "lucide-react";
+import { AuthGuard } from "@/components/auth/AuthGuard";
 
 // Mock Data for Day 12
 const CHALLENGE_DATA = {
@@ -69,48 +70,51 @@ export default function ChallengePage() {
 
   if (isLocked) {
     return (
+      <AuthGuard>
+        <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
+          <div className="sticky top-0 z-50 flex items-center p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+            <Link href="/dashboard">
+              <Button variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center max-w-md mx-auto w-full">
+            <div className="w-20 h-20 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center mb-6 shadow-2xl">
+              <Lock className="w-8 h-8 text-zinc-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-white mb-2">Day Locked</h2>
+            <p className="text-zinc-400 mb-8 leading-relaxed">
+              You cannot access Day {day} yet. You are currently on Day {currentActiveDay}. Complete your active challenge first!
+            </p>
+            <Link href={`/day/${currentActiveDay}`}>
+              <Button className="w-full bg-white text-indigo-950 hover:bg-zinc-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                Go to Day {currentActiveDay}
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </AuthGuard>
+    );
+  }
+
+  return (
+    <AuthGuard>
       <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
-        <div className="sticky top-0 z-50 flex items-center p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+        {/* Top Navigation Bar */}
+        <div className="sticky top-0 z-50 flex items-center justify-between p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
           <Link href="/dashboard">
             <Button variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
               <ArrowLeft className="w-5 h-5" />
             </Button>
           </Link>
+          <span className="font-bold text-sm tracking-widest uppercase text-indigo-400">
+            Day {day}
+          </span>
+          <div className="w-10 h-10" /> {/* Spacer for centering */}
         </div>
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center max-w-md mx-auto w-full">
-          <div className="w-20 h-20 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center mb-6 shadow-2xl">
-            <Lock className="w-8 h-8 text-zinc-500" />
-          </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Day Locked</h2>
-          <p className="text-zinc-400 mb-8 leading-relaxed">
-            You cannot access Day {day} yet. You are currently on Day {currentActiveDay}. Complete your active challenge first!
-          </p>
-          <Link href={`/day/${currentActiveDay}`}>
-            <Button className="w-full bg-white text-indigo-950 hover:bg-zinc-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-              Go to Day {currentActiveDay}
-            </Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
-  return (
-    <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
-      {/* Top Navigation Bar */}
-      <div className="sticky top-0 z-50 flex items-center justify-between p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
-        <Link href="/dashboard">
-          <Button variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-        </Link>
-        <span className="font-bold text-sm tracking-widest uppercase text-indigo-400">
-          Day {day}
-        </span>
-        <div className="w-10 h-10" /> {/* Spacer for centering */}
-      </div>
-
-      <div className="flex-1 p-4 sm:p-5 space-y-8 max-w-2xl mx-auto w-full">
+        <div className="flex-1 p-4 sm:p-5 space-y-8 max-w-2xl mx-auto w-full">
         
         {/* Header Section */}
         <motion.section 
@@ -271,5 +275,6 @@ export default function ChallengePage() {
         </div>
       </motion.div>
     </div>
+    </AuthGuard>
   );
 }

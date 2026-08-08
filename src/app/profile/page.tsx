@@ -1,20 +1,109 @@
 "use client";
 
 import * as React from "react";
-import { User } from "lucide-react";
-import { EmptyState } from "@/components/ui/EmptyState";
+import { motion } from "framer-motion";
+import { Settings, LogOut, Award, Flame, Star, MapPin } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { useAppContext } from "@/context/AppContext";
+import { AuthGuard } from "@/components/auth/AuthGuard";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
+  const { user, streak, xp, submittedDays, logout } = useAppContext();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
+
   return (
-    <div className="flex-1 p-4 sm:p-5 flex flex-col justify-center max-w-xl mx-auto w-full pt-12">
-      <EmptyState 
-        icon={User}
-        title="Your Profile"
-        description="We're crafting a beautiful new way to showcase your stats, achievements, and GitHub integrations. Coming very soon."
-        actionLabel="Back to Dashboard"
-        onAction={() => window.location.href = "/dashboard"}
-        variant="default"
-      />
-    </div>
+    <AuthGuard>
+      <div className="flex flex-col p-4 sm:p-5 pb-32 font-[family-name:var(--font-geist-sans)] text-zinc-100 space-y-6">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold tracking-tight">Profile</h1>
+          <Link href="/settings">
+            <Button variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
+              <Settings className="w-5 h-5" />
+            </Button>
+          </Link>
+        </div>
+
+        {/* Profile Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Card className="bg-gradient-to-br from-indigo-900/40 to-zinc-900/80 border-white/10 overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 blur-[50px] pointer-events-none rounded-full" />
+            <CardContent className="p-6 relative z-10 flex flex-col items-center text-center">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 p-1 mb-4">
+                <div className="w-full h-full bg-zinc-900 rounded-full flex items-center justify-center text-3xl font-bold uppercase border-2 border-zinc-900">
+                  {user?.name.charAt(0) || "U"}
+                </div>
+              </div>
+              <h2 className="text-xl font-bold text-white mb-1">{user?.name || "User"}</h2>
+              <p className="text-sm text-zinc-400 mb-4">{user?.email || "user@example.com"}</p>
+              
+              <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1 bg-zinc-800/50 rounded-full border border-white/5 text-zinc-300">
+                <MapPin className="w-3 h-3 text-indigo-400" />
+                Earth
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-3">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+            <Card className="bg-zinc-900/50 border-white/5">
+              <CardContent className="p-4 flex flex-col items-center justify-center text-center">
+                <Flame className="w-6 h-6 text-orange-500 mb-2" />
+                <span className="text-2xl font-black">{streak}</span>
+                <span className="text-xs text-zinc-500 uppercase font-bold tracking-wider">Day Streak</span>
+              </CardContent>
+            </Card>
+          </motion.div>
+          
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+            <Card className="bg-zinc-900/50 border-white/5">
+              <CardContent className="p-4 flex flex-col items-center justify-center text-center">
+                <Star className="w-6 h-6 text-yellow-500 mb-2" />
+                <span className="text-2xl font-black">{xp}</span>
+                <span className="text-xs text-zinc-500 uppercase font-bold tracking-wider">Total XP</span>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="col-span-2">
+            <Card className="bg-zinc-900/50 border-white/5">
+              <CardContent className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30">
+                    <Award className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-bold text-white">Challenges Completed</span>
+                    <span className="text-xs text-zinc-400">Keep up the great work!</span>
+                  </div>
+                </div>
+                <span className="text-xl font-black">{submittedDays.length}/60</span>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+
+        {/* Actions */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="pt-4">
+          <Button onClick={handleLogout} variant="ghost" className="w-full text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 h-12">
+            <LogOut className="w-4 h-4 mr-2" /> Sign Out
+          </Button>
+        </motion.div>
+      </div>
+    </AuthGuard>
   );
 }

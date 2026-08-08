@@ -8,7 +8,14 @@ export type SubmissionData = {
   linkedinUrl: string;
 };
 
+export type MockUser = {
+  name: string;
+  email: string;
+};
+
 type AppState = {
+  user: MockUser | null;
+  isAuthenticated: boolean;
   submittedDays: number[];
   streak: number;
   xp: number;
@@ -16,12 +23,17 @@ type AppState = {
 };
 
 type AppContextType = AppState & {
+  login: (email: string) => void;
+  signup: (name: string, email: string) => void;
+  logout: () => void;
   submitDay: (day: number) => void;
   resetProgress: () => void;
   isHydrated: boolean;
 };
 
 const INITIAL_MOCK_STATE: AppState = {
+  user: null,
+  isAuthenticated: false,
   submittedDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   streak: 11,
   xp: 14000,
@@ -64,17 +76,41 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const login = (email: string) => {
+    setState(prev => ({
+      ...prev,
+      isAuthenticated: true,
+      user: { name: email.split("@")[0], email }
+    }));
+  };
+
+  const signup = (name: string, email: string) => {
+    setState(prev => ({
+      ...prev,
+      isAuthenticated: true,
+      user: { name, email }
+    }));
+  };
+
+  const logout = () => {
+    setState(prev => ({
+      ...prev,
+      isAuthenticated: false,
+      user: null
+    }));
+  };
+
   const resetProgress = () => {
-    setState({
+    setState(prev => ({
+      ...prev,
       submittedDays: [],
       streak: 0,
       xp: 0,
-      totalDays: 60,
-    });
+    }));
   };
 
   return (
-    <AppContext.Provider value={{ ...state, submitDay, resetProgress, isHydrated }}>
+    <AppContext.Provider value={{ ...state, login, signup, logout, submitDay, resetProgress, isHydrated }}>
       {children}
     </AppContext.Provider>
   );

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { TopBar } from "@/components/layout/TopBar";
-import { BottomNav } from "@/components/layout/BottomNav";
+import { NavigationWrapper } from "@/components/layout/NavigationWrapper";
 import { AppProvider } from "@/context/AppContext";
 import "./globals.css";
 
@@ -39,13 +38,9 @@ export default function RootLayout({
               <div className="absolute bottom-[-10%] w-[400px] h-[400px] bg-fuchsia-500/10 blur-[100px] rounded-full mix-blend-screen" />
             </div>
 
-            <div className="relative z-10 flex flex-col flex-1">
-              <TopBar />
-              <main className="flex-1 pb-24">
-                {children}
-              </main>
-              <BottomNav />
-            </div>
+            <NavigationWrapper>
+              {children}
+            </NavigationWrapper>
           </div>
         </AppProvider>
       </body>

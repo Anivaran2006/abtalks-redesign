@@ -5,8 +5,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Rocket, Code2, Zap } from "lucide-react";
+import Link from "next/link";
+import { useAppContext } from "@/context/AppContext";
 
 export function Hero() {
+  const { isAuthenticated } = useAppContext();
+  
   return (
     <section className="relative w-full flex flex-col items-center pt-12 pb-8 overflow-hidden rounded-3xl mt-4">
       {/* Animated Background Gradients */}
@@ -105,10 +109,12 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="flex w-full px-2"
         >
-          <Button size="lg" className="w-full gap-2 text-base h-14 rounded-2xl shadow-[0_0_40px_-10px_rgba(99,102,241,0.5)] hover:shadow-[0_0_60px_-15px_rgba(99,102,241,0.7)] transition-shadow">
-            Join the Challenge
-            <Rocket className="w-5 h-5" />
-          </Button>
+          <Link href={isAuthenticated ? "/dashboard" : "/signup"} className="w-full">
+            <Button size="lg" className="w-full gap-2 text-base h-14 rounded-2xl shadow-[0_0_40px_-10px_rgba(99,102,241,0.5)] hover:shadow-[0_0_60px_-15px_rgba(99,102,241,0.7)] transition-shadow">
+              {isAuthenticated ? "Go to Dashboard" : "Join the Challenge"}
+              <Rocket className="w-5 h-5" />
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>

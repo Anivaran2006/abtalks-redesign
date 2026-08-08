@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/Progress";
 import { StreakCard } from "@/components/features/dashboard/StreakCard";
 import { TaskCard } from "@/components/features/dashboard/TaskCard";
 import { AIMentorCard } from "@/components/features/dashboard/AIMentorCard";
+import { AuthGuard } from "@/components/auth/AuthGuard";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { MOCK_DASHBOARD_DATA } from "@/lib/mock-data";
@@ -34,9 +35,10 @@ export default function DashboardPage() {
   const todayChallenge = MOCK_DASHBOARD_DATA.todayChallenge;
 
   return (
-    <div className="flex flex-col p-4 sm:p-5 pb-32 font-[family-name:var(--font-geist-sans)] text-zinc-100 space-y-5">
-      
-      {/* Header */}
+    <AuthGuard>
+      <div className="flex flex-col p-4 sm:p-5 pb-32 font-[family-name:var(--font-geist-sans)] text-zinc-100 space-y-5">
+        
+        {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -162,7 +164,7 @@ export default function DashboardPage() {
       >
         <AchievementsSection />
       </motion.section>
-
-    </div>
+        </div>
+    </AuthGuard>
   );
 }
