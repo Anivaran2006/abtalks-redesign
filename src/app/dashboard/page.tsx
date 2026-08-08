@@ -12,7 +12,6 @@ import { TaskCard } from "@/components/features/dashboard/TaskCard";
 import { AIMentorCard } from "@/components/features/dashboard/AIMentorCard";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { MOCK_DASHBOARD_DATA } from "@/lib/mock-data";
 import { useAppContext } from "@/context/AppContext";
 
@@ -27,7 +26,8 @@ const Leaderboard = dynamic(() => import("@/components/features/dashboard/Leader
 });
 
 export default function DashboardPage() {
-  const { streak, submittedDays, totalDays } = useAppContext();
+  const { streak, submittedDays, totalDays, user } = useAppContext();
+  const leaderboardRef = React.useRef<HTMLElement>(null);
   const completedDays = submittedDays.length;
   const progressPercent = (completedDays / totalDays) * 100;
   
@@ -45,19 +45,11 @@ export default function DashboardPage() {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tighter text-white">Welcome back! 👋</h1>
+          <h1 className="text-3xl font-extrabold tracking-tighter text-white">Welcome back, {user?.name || "Coder"}! 👋</h1>
           <p className="text-sm text-zinc-400 mt-1 font-medium">Here&apos;s your progress for today.</p>
         </div>
-        <div className="w-10 h-10 rounded-full bg-zinc-800 border-2 border-indigo-500 overflow-hidden shrink-0 relative">
-          <Image 
-            src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&backgroundColor=transparent" 
-            alt="Profile" 
-            fill
-            sizes="40px"
-            priority
-            unoptimized
-            className="object-cover"
-          />
+        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 border-2 border-indigo-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
+          {user?.name?.charAt(0)?.toUpperCase() || "U"}
         </div>
       </motion.div>
 
@@ -130,13 +122,17 @@ export default function DashboardPage() {
             <Upload className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" /> Submit Proof
           </Button>
         </Link>
-        <Button variant="secondary" className="flex-1 gap-2 border-white/10 group">
+        <Button 
+          onClick={() => leaderboardRef.current?.scrollIntoView({ behavior: "smooth" })}
+          variant="secondary" className="flex-1 gap-2 border-white/10 group"
+        >
           <BarChart3 className="w-4 h-4 text-fuchsia-400 group-hover:scale-110 transition-transform" /> Leaderboard
         </Button>
       </motion.nav>
 
       {/* Leaderboard */}
       <motion.section
+        ref={leaderboardRef}
         aria-label="Leaderboard"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

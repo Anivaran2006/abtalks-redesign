@@ -10,9 +10,11 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { useSubmissionForm } from "@/hooks/useSubmissionForm";
 import { useAppContext } from "@/context/AppContext";
+import { useRouter } from "next/navigation";
 
 export function SubmissionForm({ dayNumber }: { dayNumber: number }) {
   const { streak, submittedDays } = useAppContext();
+  const router = useRouter();
   const {
     githubUrl, setGithubUrl,
     commitUrl, setCommitUrl,
@@ -23,10 +25,12 @@ export function SubmissionForm({ dayNumber }: { dayNumber: number }) {
     handleSubmit
   } = useSubmissionForm(dayNumber);
 
-  // If already submitted in another session or pre-filled
-  if (submittedDays.includes(dayNumber) && !isSuccess) {
-    setIsSuccess(true);
-  }
+  // If already submitted, mark as success on mount
+  React.useEffect(() => {
+    if (submittedDays.includes(dayNumber)) {
+      setIsSuccess(true);
+    }
+  }, [dayNumber, submittedDays, setIsSuccess]);
 
   if (isSuccess) {
     return (
@@ -88,7 +92,7 @@ export function SubmissionForm({ dayNumber }: { dayNumber: number }) {
           </div>
 
           <Button 
-            onClick={() => window.location.href = "/dashboard"} 
+            onClick={() => router.push("/dashboard")} 
             className="w-full bg-white text-indigo-950 hover:bg-zinc-200 h-12 text-base font-semibold shadow-[0_0_20px_rgba(255,255,255,0.2)]"
           >
             Return to Dashboard
