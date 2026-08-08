@@ -2,12 +2,15 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Smartphone, Sparkles, Mail } from "lucide-react";
+import { Sparkles, Mail } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
 import { Progress } from "@/components/ui/Progress";
+import { Hero } from "@/components/ui/Hero";
+import { TrustSection } from "@/components/ui/TrustSection";
+import { TimelineSection } from "@/components/ui/TimelineSection";
 
 export default function Home() {
   const [progress, setProgress] = React.useState(15);
@@ -18,7 +21,10 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col p-6 font-[family-name:var(--font-geist-sans)] text-zinc-100">
+    <div className="flex flex-col p-6 font-[family-name:var(--font-geist-sans)] text-zinc-100 overflow-x-hidden">
+      <Hero />
+      <TrustSection />
+      <TimelineSection />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
