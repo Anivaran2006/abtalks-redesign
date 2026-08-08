@@ -11,6 +11,7 @@ import { StreakCard } from "@/components/ui/StreakCard";
 import { ChallengeCalendar } from "@/components/ui/ChallengeCalendar";
 import { TaskCard } from "@/components/ui/TaskCard";
 import { AchievementsSection } from "@/components/ui/AchievementsSection";
+import { Leaderboard } from "@/components/ui/Leaderboard";
 
 const MOCK_DATA = {
   streak: 15,
@@ -107,6 +108,15 @@ export default function DashboardPage() {
         <Button variant="secondary" className="flex-1 gap-2 border-white/10">
           <BarChart3 className="w-4 h-4" /> Leaderboard
         </Button>
+      </motion.div>
+
+      {/* Leaderboard */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.42 }}
+      >
+        <Leaderboard />
       </motion.div>
 
       {/* Challenge Calendar */}
