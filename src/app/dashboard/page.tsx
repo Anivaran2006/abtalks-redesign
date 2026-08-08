@@ -8,10 +8,20 @@ import { Button } from "@/components/ui/Button";
 import { Progress } from "@/components/ui/Progress";
 import { Badge } from "@/components/ui/Badge";
 import { StreakCard } from "@/components/ui/StreakCard";
-import { ChallengeCalendar } from "@/components/ui/ChallengeCalendar";
 import { TaskCard } from "@/components/ui/TaskCard";
-import { AchievementsSection } from "@/components/ui/AchievementsSection";
-import { Leaderboard } from "@/components/ui/Leaderboard";
+import { AIMentorCard } from "@/components/ui/AIMentorCard";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+
+const ChallengeCalendar = dynamic(() => import("@/components/ui/ChallengeCalendar").then(m => m.ChallengeCalendar), { 
+  loading: () => <div className="h-64 rounded-3xl bg-white/5 animate-pulse" /> 
+});
+const AchievementsSection = dynamic(() => import("@/components/ui/AchievementsSection").then(m => m.AchievementsSection), { 
+  loading: () => <div className="h-48 rounded-3xl bg-white/5 animate-pulse" /> 
+});
+const Leaderboard = dynamic(() => import("@/components/ui/Leaderboard").then(m => m.Leaderboard), { 
+  loading: () => <div className="h-80 rounded-3xl bg-white/5 animate-pulse" /> 
+});
 
 const MOCK_DATA = {
   streak: 15,
@@ -34,7 +44,7 @@ export default function DashboardPage() {
   const progressPercent = (MOCK_DATA.completedDays / MOCK_DATA.totalDays) * 100;
 
   return (
-    <div className="flex flex-col p-6 pb-32 font-[family-name:var(--font-geist-sans)] text-zinc-100 space-y-6">
+    <div className="flex flex-col p-4 sm:p-5 pb-32 font-[family-name:var(--font-geist-sans)] text-zinc-100 space-y-5">
       
       {/* Header */}
       <motion.div
@@ -43,15 +53,35 @@ export default function DashboardPage() {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Welcome back!</h1>
-          <p className="text-sm text-zinc-400">Here's your progress for today.</p>
+          <h1 className="text-3xl font-extrabold tracking-tighter text-white">Welcome back! 👋</h1>
+          <p className="text-sm text-zinc-400 mt-1 font-medium">Here's your progress for today.</p>
         </div>
-        <div className="w-10 h-10 rounded-full bg-zinc-800 border-2 border-indigo-500 overflow-hidden shrink-0">
-          <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&backgroundColor=transparent" alt="Profile" />
+        <div className="w-10 h-10 rounded-full bg-zinc-800 border-2 border-indigo-500 overflow-hidden shrink-0 relative">
+          <Image 
+            src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&backgroundColor=transparent" 
+            alt="Profile" 
+            fill
+            sizes="40px"
+            priority
+            unoptimized
+            className="object-cover"
+          />
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-2 gap-4">
+      {/* AI Mentor */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+      >
+        <AIMentorCard 
+          streak={MOCK_DATA.streak} 
+          completedDays={MOCK_DATA.completedDays} 
+        />
+      </motion.div>
+
+      <section aria-label="Overview" className="grid grid-cols-2 gap-4">
         {/* Current Streak */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -96,46 +126,50 @@ export default function DashboardPage() {
       </motion.div>
 
       {/* Quick Actions */}
-      <motion.div
+      <motion.nav
+        aria-label="Quick Actions"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
         className="flex gap-3"
       >
-        <Button variant="secondary" className="flex-1 gap-2 border-white/10">
-          <Upload className="w-4 h-4" /> Submit Proof
+        <Button variant="secondary" className="flex-1 gap-2 border-white/10 group">
+          <Upload className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" /> Submit Proof
         </Button>
-        <Button variant="secondary" className="flex-1 gap-2 border-white/10">
-          <BarChart3 className="w-4 h-4" /> Leaderboard
+        <Button variant="secondary" className="flex-1 gap-2 border-white/10 group">
+          <BarChart3 className="w-4 h-4 text-fuchsia-400 group-hover:scale-110 transition-transform" /> Leaderboard
         </Button>
       </motion.div>
 
       {/* Leaderboard */}
-      <motion.div
+      <motion.section
+        aria-label="Leaderboard"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.42 }}
       >
         <Leaderboard />
-      </motion.div>
+      </motion.section>
 
       {/* Challenge Calendar */}
-      <motion.div
+      <motion.section
+        aria-label="Challenge Calendar"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.45 }}
       >
         <ChallengeCalendar />
-      </motion.div>
+      </motion.section>
 
       {/* Achievements */}
-      <motion.div
+      <motion.section
+        aria-label="Achievements"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
         <AchievementsSection />
-      </motion.div>
+      </motion.section>
 
     </div>
   );

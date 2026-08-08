@@ -27,14 +27,23 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-950`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
       >
-        <div className="max-w-[390px] mx-auto min-h-screen bg-white dark:bg-zinc-900 shadow-xl overflow-x-hidden relative flex flex-col">
-          <TopBar />
-          <main className="flex-1 pb-24">
-            {children}
-          </main>
-          <BottomNav />
+        <div className="max-w-[390px] mx-auto min-h-screen bg-[#09090b] shadow-2xl shadow-indigo-500/10 overflow-x-hidden relative flex flex-col selection:bg-indigo-500/30">
+          
+          {/* Premium Ambient Background */}
+          <div className="fixed inset-0 z-0 pointer-events-none flex justify-center">
+            <div className="absolute top-[-10%] w-[500px] h-[500px] bg-indigo-500/10 blur-[100px] rounded-full mix-blend-screen" />
+            <div className="absolute bottom-[-10%] w-[400px] h-[400px] bg-fuchsia-500/10 blur-[100px] rounded-full mix-blend-screen" />
+          </div>
+
+          <div className="relative z-10 flex flex-col flex-1">
+            <TopBar />
+            <main className="flex-1 pb-24">
+              {children}
+            </main>
+            <BottomNav />
+          </div>
         </div>
       </body>
     </html>

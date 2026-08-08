@@ -19,8 +19,9 @@ export function BottomNav({ className, ...props }: BottomNavProps) {
 
   return (
     <nav
+      aria-label="Main Navigation"
       className={cn(
-        "fixed bottom-0 z-50 w-full max-w-[390px] backdrop-blur-2xl bg-zinc-950/80 border-t border-white/10 px-6 py-4 pb-8 flex items-center justify-between rounded-t-3xl",
+        "fixed bottom-0 z-50 w-full max-w-[390px] backdrop-blur-2xl bg-[#09090b]/80 border-t border-white/5 px-6 py-4 pb-8 flex items-center justify-between rounded-t-[2.5rem] shadow-[0_-10px_40px_rgba(0,0,0,0.8)]",
         className
       )}
       {...props}
@@ -30,10 +31,13 @@ export function BottomNav({ className, ...props }: BottomNavProps) {
         const Icon = tab.icon;
         
         return (
-          <button
+          <motion.button
+            whileTap={{ scale: 0.9 }}
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className="relative flex flex-col items-center justify-center w-12 h-12"
+            aria-label={tab.label}
+            aria-current={isActive ? "page" : undefined}
+            className="relative flex flex-col items-center justify-center w-12 h-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-xl"
           >
             {isActive && (
               <motion.div
@@ -46,19 +50,19 @@ export function BottomNav({ className, ...props }: BottomNavProps) {
             <Icon 
               className={cn(
                 "w-6 h-6 mb-1 relative z-10 transition-colors duration-300", 
-                isActive ? "text-indigo-400" : "text-zinc-500"
+                isActive ? "text-indigo-400" : "text-zinc-400 group-hover:text-zinc-300"
               )} 
             />
             
             <span 
               className={cn(
                 "text-[10px] font-medium relative z-10 transition-colors duration-300",
-                isActive ? "text-indigo-300" : "text-zinc-600"
+                isActive ? "text-indigo-300" : "text-zinc-400"
               )}
             >
               {tab.label}
             </span>
-          </button>
+          </motion.button>
         );
       })}
     </nav>

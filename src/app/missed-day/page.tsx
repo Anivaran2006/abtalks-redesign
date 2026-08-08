@@ -37,7 +37,7 @@ export default function MissedDayPage() {
         <div className="w-10 h-10" />
       </div>
 
-      <div className="flex-1 p-6 flex flex-col justify-center max-w-xl mx-auto w-full pt-12">
+      <div className="flex-1 p-4 sm:p-5 flex flex-col justify-center max-w-xl mx-auto w-full pt-12">
         
         <AnimatePresence mode="wait">
           {!freezeUsed ? (

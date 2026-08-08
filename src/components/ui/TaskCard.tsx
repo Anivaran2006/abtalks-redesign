@@ -43,18 +43,18 @@ export function TaskCard({ dayNumber, title, difficulty, estTime, skills }: Task
               {difficulty}
             </Badge>
           </div>
-          <CardTitle className="text-xl font-bold text-white leading-tight">
+          <CardTitle className="text-2xl font-extrabold tracking-tight text-white leading-tight">
             {title}
           </CardTitle>
         </CardHeader>
         
         <CardContent className="pb-4 relative z-10 space-y-4">
           <div className="flex items-center gap-4 text-sm text-zinc-400">
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 font-medium">
               <Clock className="w-4 h-4 text-zinc-500" />
               <span>{estTime}</span>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 font-medium">
               <Code2 className="w-4 h-4 text-zinc-500" />
               <span>{skills.length} Skills</span>
             </div>
@@ -64,7 +64,7 @@ export function TaskCard({ dayNumber, title, difficulty, estTime, skills }: Task
             {skills.map((skill) => (
               <span
                 key={skill}
-                className="text-[10px] font-medium px-2 py-1 rounded-md bg-white/5 border border-white/5 text-zinc-300"
+                className="text-[10px] font-bold tracking-wide uppercase px-2 py-1 rounded-md bg-white/5 border border-white/5 text-zinc-300"
               >
                 {skill}
               </span>
@@ -73,9 +73,9 @@ export function TaskCard({ dayNumber, title, difficulty, estTime, skills }: Task
         </CardContent>
         
         <CardFooter className="relative z-10">
-          <Button className="w-full gap-2 bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20">
+          <Button variant="primary" className="w-full gap-2 text-base h-12 group">
             Continue Challenge
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </CardFooter>
       </Card>

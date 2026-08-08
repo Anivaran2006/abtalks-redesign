@@ -23,11 +23,20 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         {...props}
       >
         <motion.div
-          className="h-full bg-gradient-to-r from-indigo-500 to-violet-500"
-          initial={{ width: 0 }}
-          animate={{ width: `${percentage}%` }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        />
+          className="h-full bg-gradient-to-r from-indigo-500 via-violet-400 to-indigo-500 relative overflow-hidden"
+          style={{ backgroundSize: "200% 100%" }}
+          animate={{ 
+            width: `${percentage}%`,
+            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+          }}
+          transition={{ 
+            width: { duration: 0.8, type: "spring", bounce: 0.2 },
+            backgroundPosition: { duration: 3, repeat: Infinity, ease: "linear" }
+          }}
+        >
+          {/* Shimmer effect */}
+          <div className="absolute inset-0 bg-white/20 w-1/3 blur-[4px] -skew-x-12 translate-x-[-150%] animate-[shimmer_2s_infinite]" />
+        </motion.div>
       </div>
     );
   }

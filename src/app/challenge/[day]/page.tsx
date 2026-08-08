@@ -75,7 +75,7 @@ export default function ChallengePage() {
         <div className="w-10 h-10" /> {/* Spacer for centering */}
       </div>
 
-      <div className="flex-1 p-6 space-y-10 max-w-2xl mx-auto w-full">
+      <div className="flex-1 p-4 sm:p-5 space-y-8 max-w-2xl mx-auto w-full">
         
         {/* Header Section */}
         <motion.section 

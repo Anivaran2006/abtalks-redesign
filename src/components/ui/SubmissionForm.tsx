@@ -3,7 +3,6 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Linkedin, CheckCircle2, AlertCircle, Link as LinkIcon, Send, Trophy, Flame, Zap } from "lucide-react";
-import confetti from "canvas-confetti";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -11,30 +10,33 @@ import { cn } from "@/lib/utils";
 
 function ConfettiEffect() {
   React.useEffect(() => {
-    const duration = 3000;
-    const end = Date.now() + duration;
+    import("canvas-confetti").then((module) => {
+      const confetti = module.default;
+      const duration = 3000;
+      const end = Date.now() + duration;
 
-    const frame = () => {
-      confetti({
-        particleCount: 5,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: ['#6366f1', '#a855f7', '#ec4899']
-      });
-      confetti({
-        particleCount: 5,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: ['#6366f1', '#a855f7', '#ec4899']
-      });
+      const frame = () => {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#6366f1', '#a855f7', '#ec4899']
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#6366f1', '#a855f7', '#ec4899']
+        });
 
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    };
-    frame();
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      };
+      frame();
+    });
   }, []);
   return null;
 }

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { motion } from "framer-motion";
 import { Bell, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -8,7 +9,7 @@ export function TopBar({ className, ...props }: TopBarProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full backdrop-blur-xl bg-zinc-950/80 border-b border-white/10 px-6 py-4 flex items-center justify-between",
+        "sticky top-0 z-50 w-full backdrop-blur-2xl bg-[#09090b]/80 border-b border-white/5 px-6 py-4 flex items-center justify-between shadow-[0_10px_30px_rgba(0,0,0,0.5)]",
         className
       )}
       {...props}
@@ -19,10 +20,15 @@ export function TopBar({ className, ...props }: TopBarProps) {
         </div>
         <span className="font-bold text-lg tracking-tight text-zinc-100">AbTalks</span>
       </div>
-      <button className="relative p-2 text-zinc-400 hover:text-zinc-100 transition-colors rounded-full hover:bg-white/5">
+      <motion.button 
+        aria-label="View Notifications"
+        whileHover={{ scale: 1.1, rotate: 10 }}
+        whileTap={{ scale: 0.9 }}
+        className="relative p-2 text-zinc-400 hover:text-zinc-100 transition-colors rounded-full hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+      >
         <Bell className="w-5 h-5" />
         <span className="absolute top-2 right-2.5 w-2 h-2 bg-indigo-500 rounded-full border border-zinc-950" />
-      </button>
+      </motion.button>
     </header>
   );
 }

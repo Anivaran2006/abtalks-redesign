@@ -20,7 +20,7 @@ export default function EmptyStatesShowcase() {
         <div className="w-10 h-10" />
       </div>
 
-      <div className="flex-1 p-6 space-y-12 max-w-2xl mx-auto w-full pt-8">
+      <div className="flex-1 p-4 sm:p-5 space-y-12 max-w-2xl mx-auto w-full pt-8">
         
         <section className="space-y-4">
           <h2 className="text-xl font-bold text-white mb-2 border-b border-white/10 pb-2">1. New Student (No Data)</h2>
