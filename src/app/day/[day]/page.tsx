@@ -99,20 +99,19 @@ export default function ChallengePage() {
   }
 
   return (
-    <AuthGuard>
-      <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
-        {/* Top Navigation Bar */}
-        <div className="sticky top-0 z-50 flex items-center justify-between p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
-          <Link href="/dashboard">
-            <Button variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
-          <span className="font-bold text-sm tracking-widest uppercase text-indigo-400">
-            Day {day}
-          </span>
-          <div className="w-10 h-10" /> {/* Spacer for centering */}
-        </div>
+    <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-52">
+      {/* Top Navigation Bar */}
+      <div className="sticky top-0 z-50 flex items-center justify-between p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+        <Link href="/dashboard">
+          <Button variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+        </Link>
+        <span className="font-bold text-sm tracking-widest uppercase text-indigo-400">
+          Day {day}
+        </span>
+        <div className="w-10 h-10" /> {/* Spacer for centering */}
+      </div>
 
         <div className="flex-1 p-4 sm:p-5 space-y-8 max-w-2xl mx-auto w-full">
         
@@ -246,7 +245,7 @@ export default function ChallengePage() {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 200, damping: 20 }}
-        className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent z-50 flex justify-center"
+        className="fixed bottom-24 left-0 right-0 p-4 bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent z-50 flex justify-center"
       >
         <div className="w-full max-w-2xl bg-zinc-900/90 backdrop-blur-xl border border-white/10 p-3 rounded-2xl flex items-center justify-between shadow-2xl">
           {isSubmitted ? (
@@ -275,6 +274,5 @@ export default function ChallengePage() {
         </div>
       </motion.div>
     </div>
-    </AuthGuard>
   );
 }
