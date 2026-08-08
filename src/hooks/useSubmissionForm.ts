@@ -1,7 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useConfetti } from './useConfetti';
+import { useAppContext } from '@/context/AppContext';
 
-export function useSubmissionForm() {
+export function useSubmissionForm(day: number) {
   const [githubUrl, setGithubUrl] = useState("");
   const [commitUrl, setCommitUrl] = useState("");
   const [linkedinUrl, setLinkedinUrl] = useState("");
@@ -10,6 +11,7 @@ export function useSubmissionForm() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   
   const { triggerConfetti } = useConfetti();
+  const { submitDay } = useAppContext();
 
   const validate = useCallback(() => {
     const newErrors: { [key: string]: string } = {};
@@ -40,9 +42,10 @@ export function useSubmissionForm() {
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
+      submitDay(day);
       triggerConfetti();
     }, 1500);
-  }, [validate, triggerConfetti]);
+  }, [validate, triggerConfetti, submitDay, day]);
 
   return {
     githubUrl, setGithubUrl,

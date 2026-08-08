@@ -1,10 +1,15 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SubmissionForm } from "@/components/features/forms/SubmissionForm";
+import { useAppContext } from "@/context/AppContext";
 
 export default function SubmitPage() {
+  const { submittedDays } = useAppContext();
+  const currentDay = submittedDays.length + 1;
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
       {/* Top Navigation Bar */}
@@ -21,7 +26,7 @@ export default function SubmitPage() {
       </div>
 
       <div className="flex-1 p-4 sm:p-5 flex flex-col justify-center max-w-2xl mx-auto w-full pt-12">
-        <SubmissionForm />
+        <SubmissionForm dayNumber={currentDay} />
       </div>
     </div>
   );

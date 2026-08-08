@@ -6,8 +6,21 @@ import { Trophy, ArrowUp, ArrowDown, Minus, Crown } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { MOCK_LEADERBOARD } from "@/lib/mock-data";
+import { useAppContext } from "@/context/AppContext";
 
 export function Leaderboard() {
+  const { xp } = useAppContext();
+  
+  // Clone, update current user XP, and re-sort
+  const dynamicLeaderboard = React.useMemo(() => {
+    const board = MOCK_LEADERBOARD.map(u => u.isCurrentUser ? { ...u, xp } : u);
+    return board.sort((a, b) => b.xp - a.xp).map((u, i) => ({ ...u, rank: 40 + i }));
+  }, [xp]);
+
+  const currentUser = dynamicLeaderboard.find(u => u.isCurrentUser);
+  const currentUserIndex = dynamicLeaderboard.findIndex(u => u.isCurrentUser);
+  const nextUser = currentUserIndex > 0 ? dynamicLeaderboard[currentUserIndex - 1] : null;
+  const xpNeeded = nextUser ? nextUser.xp - (currentUser?.xp || 0) : 0;
   return (
     <Card className="bg-gradient-to-br from-indigo-950/40 to-zinc-950 border-indigo-500/20 w-full relative overflow-hidden">
       {/* Background Glow */}
@@ -24,16 +37,16 @@ export function Leaderboard() {
           </div>
           <div className="px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 font-bold text-sm flex items-center gap-1.5 shadow-[0_0_10px_rgba(99,102,241,0.3)]">
             <Crown className="w-4 h-4" />
-            Rank #42
+            Rank #{currentUser?.rank || 42}
           </div>
         </div>
       </CardHeader>
       
       <CardContent className="pt-4 relative z-10 p-0">
         <div className="flex flex-col">
-          {MOCK_LEADERBOARD.map((user, idx) => (
+          {dynamicLeaderboard.map((user, idx) => (
             <motion.div
-              key={user.rank}
+              key={user.name}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
@@ -81,7 +94,9 @@ export function Leaderboard() {
         
         <div className="p-4 text-center border-t border-white/5 bg-black/20">
           <p className="text-xs text-indigo-300 font-medium italic">
-            &quot;Only 230 XP to surpass Michael C. Keep coding!&quot;
+            {xpNeeded > 0 
+              ? `"${xpNeeded} XP to surpass ${nextUser?.name}. Keep coding!"`
+              : `"You are leading this pack! Great job!"`}
           </p>
         </div>
       </CardContent>

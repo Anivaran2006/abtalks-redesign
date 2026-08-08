@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Trophy, Upload, BarChart3 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -11,7 +12,8 @@ import { TaskCard } from "@/components/features/dashboard/TaskCard";
 import { AIMentorCard } from "@/components/features/dashboard/AIMentorCard";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { MOCK_DASHBOARD_DATA as MOCK_DATA } from "@/lib/mock-data";
+import { MOCK_DASHBOARD_DATA } from "@/lib/mock-data";
+import { useAppContext } from "@/context/AppContext";
 
 const ChallengeCalendar = dynamic(() => import("@/components/features/dashboard/ChallengeCalendar").then(m => m.ChallengeCalendar), { 
   loading: () => <div className="h-64 rounded-3xl bg-white/5 animate-pulse" /> 
@@ -24,7 +26,12 @@ const Leaderboard = dynamic(() => import("@/components/features/dashboard/Leader
 });
 
 export default function DashboardPage() {
-  const progressPercent = (MOCK_DATA.completedDays / MOCK_DATA.totalDays) * 100;
+  const { streak, submittedDays, totalDays } = useAppContext();
+  const completedDays = submittedDays.length;
+  const progressPercent = (completedDays / totalDays) * 100;
+  
+  // Get today's challenge from mock data (in a real app, this would be fetched based on completedDays + 1)
+  const todayChallenge = MOCK_DASHBOARD_DATA.todayChallenge;
 
   return (
     <div className="flex flex-col p-4 sm:p-5 pb-32 font-[family-name:var(--font-geist-sans)] text-zinc-100 space-y-5">
@@ -59,8 +66,8 @@ export default function DashboardPage() {
         transition={{ delay: 0.05 }}
       >
         <AIMentorCard 
-          streak={MOCK_DATA.streak} 
-          completedDays={MOCK_DATA.completedDays} 
+          streak={streak} 
+          completedDays={completedDays} 
         />
       </motion.div>
 
@@ -71,7 +78,7 @@ export default function DashboardPage() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
         >
-          <StreakCard streak={MOCK_DATA.streak} />
+          <StreakCard streak={streak} />
         </motion.div>
 
         {/* Overall Progress */}
@@ -84,7 +91,7 @@ export default function DashboardPage() {
             <CardContent className="p-5 flex flex-col justify-center h-full gap-3">
               <div className="flex justify-between items-center">
                 <Trophy className="w-5 h-5 text-indigo-400" />
-                <span className="text-sm font-bold text-zinc-100">{MOCK_DATA.completedDays}/{MOCK_DATA.totalDays}</span>
+                <span className="text-sm font-bold text-zinc-100">{completedDays}/{totalDays}</span>
               </div>
               <Progress value={progressPercent} className="h-1.5" />
               <p className="text-xs text-zinc-400 text-center">{Math.round(progressPercent)}% Completed</p>
@@ -100,11 +107,11 @@ export default function DashboardPage() {
         transition={{ delay: 0.3 }}
       >
         <TaskCard
-          dayNumber={MOCK_DATA.completedDays + 1}
-          title={MOCK_DATA.todayChallenge.title}
-          difficulty={MOCK_DATA.todayChallenge.difficulty as "Easy" | "Medium" | "Hard"}
-          estTime={MOCK_DATA.todayChallenge.estTime}
-          skills={MOCK_DATA.todayChallenge.skills}
+          dayNumber={completedDays + 1}
+          title={todayChallenge.title}
+          difficulty={todayChallenge.difficulty as "Easy" | "Medium" | "Hard"}
+          estTime={todayChallenge.estTime}
+          skills={todayChallenge.skills}
         />
       </motion.div>
 
@@ -116,9 +123,11 @@ export default function DashboardPage() {
         transition={{ delay: 0.4 }}
         className="flex gap-3"
       >
-        <Button variant="secondary" className="flex-1 gap-2 border-white/10 group">
-          <Upload className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" /> Submit Proof
-        </Button>
+        <Link href="/submit" className="flex-1">
+          <Button variant="secondary" className="w-full gap-2 border-white/10 group">
+            <Upload className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" /> Submit Proof
+          </Button>
+        </Link>
         <Button variant="secondary" className="flex-1 gap-2 border-white/10 group">
           <BarChart3 className="w-4 h-4 text-fuchsia-400 group-hover:scale-110 transition-transform" /> Leaderboard
         </Button>

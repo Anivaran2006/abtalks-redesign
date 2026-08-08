@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
+import { useAppContext } from "@/context/AppContext";
+import { Lock } from "lucide-react";
 
 // Mock Data for Day 12
 const CHALLENGE_DATA = {
@@ -42,7 +44,12 @@ const CHALLENGE_DATA = {
 
 export default function ChallengePage() {
   const params = useParams();
-  const day = params.day || CHALLENGE_DATA.day;
+  const day = parseInt(params.day as string) || CHALLENGE_DATA.day;
+  const { submittedDays } = useAppContext();
+  
+  const currentActiveDay = submittedDays.length + 1;
+  const isSubmitted = submittedDays.includes(day);
+  const isLocked = day > currentActiveDay;
 
   // Local state for the checklist
   const [tasks, setTasks] = React.useState(CHALLENGE_DATA.tasks);
@@ -59,6 +66,34 @@ export default function ChallengePage() {
       default: return "text-zinc-400 border-zinc-400/30 bg-zinc-400/10";
     }
   };
+
+  if (isLocked) {
+    return (
+      <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
+        <div className="sticky top-0 z-50 flex items-center p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+          <Link href="/dashboard">
+            <Button variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+          </Link>
+        </div>
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center max-w-md mx-auto w-full">
+          <div className="w-20 h-20 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center mb-6 shadow-2xl">
+            <Lock className="w-8 h-8 text-zinc-500" />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Day Locked</h2>
+          <p className="text-zinc-400 mb-8 leading-relaxed">
+            You cannot access Day {day} yet. You are currently on Day {currentActiveDay}. Complete your active challenge first!
+          </p>
+          <Link href={`/day/${currentActiveDay}`}>
+            <Button className="w-full bg-white text-indigo-950 hover:bg-zinc-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+              Go to Day {currentActiveDay}
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
@@ -203,7 +238,6 @@ export default function ChallengePage() {
 
       </div>
 
-      {/* Floating Submit Bar */}
       <motion.div 
         initial={{ y: 100 }}
         animate={{ y: 0 }}
@@ -211,14 +245,29 @@ export default function ChallengePage() {
         className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent z-50 flex justify-center"
       >
         <div className="w-full max-w-2xl bg-zinc-900/90 backdrop-blur-xl border border-white/10 p-3 rounded-2xl flex items-center justify-between shadow-2xl">
-          <div className="hidden sm:block text-sm font-medium text-zinc-400 ml-2">
-            Done with the code?
-          </div>
-          <Link href="/submit" className="w-full sm:w-auto">
-            <Button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 px-8">
-              Submit Proof of Work
-            </Button>
-          </Link>
+          {isSubmitted ? (
+            <>
+              <div className="text-sm font-medium text-emerald-400 ml-2 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4" /> Proof Accepted
+              </div>
+              <Link href="/dashboard" className="w-full sm:w-auto">
+                <Button className="w-full bg-zinc-800 hover:bg-zinc-700 text-white shadow-lg border border-white/10 px-8">
+                  Back to Dashboard
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="hidden sm:block text-sm font-medium text-zinc-400 ml-2">
+                Done with the code?
+              </div>
+              <Link href="/submit" className="w-full sm:w-auto">
+                <Button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 px-8">
+                  Submit Proof of Work
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </motion.div>
     </div>

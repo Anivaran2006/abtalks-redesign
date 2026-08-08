@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { MOCK_ACHIEVEMENTS } from "@/lib/mock-data";
+import { useAppContext } from "@/context/AppContext";
 
 
 const rarityConfig = {
@@ -15,15 +16,35 @@ const rarityConfig = {
 };
 
 export function AchievementsSection() {
+  const { streak, submittedDays, xp } = useAppContext();
+  const completedDays = submittedDays.length;
+  
+  const achievements = React.useMemo(() => {
+    return MOCK_ACHIEVEMENTS.map(acc => {
+      let unlocked = false;
+      if (acc.name === "First Merge") unlocked = completedDays >= 1;
+      if (acc.name === "7-Day Warrior") unlocked = streak >= 7;
+      if (acc.name === "Early Bird") unlocked = completedDays >= 3;
+      if (acc.name === "Speed Coder") unlocked = streak >= 15;
+      if (acc.name === "Bug Squasher") unlocked = streak >= 21;
+      if (acc.name === "Top 1%") unlocked = xp > 14600;
+      if (acc.name === "30-Day Master") unlocked = completedDays >= 30;
+      if (acc.name === "Launch Ready") unlocked = completedDays >= 60;
+      return { ...acc, unlocked };
+    });
+  }, [streak, completedDays, xp]);
+
+  const unlockedCount = achievements.filter(a => a.unlocked).length;
+
   return (
     <section className="w-full space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold tracking-wider text-zinc-500 uppercase">Your Achievements</h3>
-        <span className="text-xs font-bold text-indigo-400">3 / 8 Unlocked</span>
+        <span className="text-xs font-bold text-indigo-400">{unlockedCount} / {achievements.length} Unlocked</span>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {MOCK_ACHIEVEMENTS.map((acc, i) => {
+        {achievements.map((acc, i) => {
           const Icon = acc.icon;
           const config = rarityConfig[acc.rarity];
           

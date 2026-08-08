@@ -9,8 +9,10 @@ import { Input } from "@/components/ui/Input";
 import { Card, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { useSubmissionForm } from "@/hooks/useSubmissionForm";
+import { useAppContext } from "@/context/AppContext";
 
-export function SubmissionForm() {
+export function SubmissionForm({ dayNumber }: { dayNumber: number }) {
+  const { streak, submittedDays } = useAppContext();
   const {
     githubUrl, setGithubUrl,
     commitUrl, setCommitUrl,
@@ -19,7 +21,12 @@ export function SubmissionForm() {
     isSuccess, setIsSuccess,
     errors, setErrors,
     handleSubmit
-  } = useSubmissionForm();
+  } = useSubmissionForm(dayNumber);
+
+  // If already submitted in another session or pre-filled
+  if (submittedDays.includes(dayNumber) && !isSuccess) {
+    setIsSuccess(true);
+  }
 
   if (isSuccess) {
     return (
@@ -59,8 +66,8 @@ export function SubmissionForm() {
             >
               <Flame className="w-6 h-6 text-orange-500 mb-2" />
               <div className="flex items-baseline gap-1 text-2xl font-black text-white">
-                <span className="text-zinc-500 line-through text-lg">15</span>
-                <span className="text-orange-400">16</span>
+                <span className="text-zinc-500 line-through text-lg">{streak - 1}</span>
+                <span className="text-orange-400">{streak}</span>
               </div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-orange-500 mt-1">Day Streak</span>
             </motion.div>
@@ -81,7 +88,7 @@ export function SubmissionForm() {
           </div>
 
           <Button 
-            onClick={() => setIsSuccess(false)} 
+            onClick={() => window.location.href = "/dashboard"} 
             className="w-full bg-white text-indigo-950 hover:bg-zinc-200 h-12 text-base font-semibold shadow-[0_0_20px_rgba(255,255,255,0.2)]"
           >
             Return to Dashboard
