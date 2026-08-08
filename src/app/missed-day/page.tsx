@@ -4,12 +4,16 @@ import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Flame, Snowflake, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import confetti from "canvas-confetti";
+import { useAppContext } from "@/context/AppContext";
 
 export default function MissedDayPage() {
   const [freezeUsed, setFreezeUsed] = React.useState(false);
+  const { streak, resetProgress } = useAppContext();
+  const router = useRouter();
 
   const handleUseFreeze = () => {
     setFreezeUsed(true);
@@ -20,6 +24,11 @@ export default function MissedDayPage() {
       origin: { y: 0.6 },
       colors: ['#38bdf8', '#818cf8', '#e0f2fe']
     });
+  };
+
+  const handleReset = () => {
+    resetProgress();
+    router.push("/dashboard");
   };
 
   return (
@@ -79,7 +88,7 @@ export default function MissedDayPage() {
                     <span className="text-sm font-bold text-blue-400 tracking-wide uppercase">1 Freeze Available</span>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-white mb-2">Save your 15-Day Streak?</h3>
+                  <h3 className="text-xl font-bold text-white mb-2">Save your {streak}-Day Streak?</h3>
                   <p className="text-sm text-zinc-400 mb-6 text-center">
                     You earned a streak freeze on Day 7. Use it now to keep your streak alive and jump right back in without losing your progress.
                   </p>
@@ -91,7 +100,7 @@ export default function MissedDayPage() {
                     >
                       <Snowflake className="w-5 h-5" /> Use Streak Freeze
                     </Button>
-                    <Button variant="ghost" className="w-full text-zinc-500 hover:text-white">
+                    <Button onClick={handleReset} variant="ghost" className="w-full text-zinc-500 hover:text-white">
                       Accept Loss & Start Over
                     </Button>
                   </div>
@@ -116,7 +125,7 @@ export default function MissedDayPage() {
               <div className="space-y-4">
                 <h1 className="text-3xl font-extrabold text-white">Streak Saved!</h1>
                 <p className="text-blue-200 text-lg max-w-md mx-auto leading-relaxed">
-                  Your 15-Day streak is safely frozen in time. Take a deep breath, and let&apos;s get back to writing code today.
+                  Your {streak}-Day streak is safely frozen in time. Take a deep breath, and let&apos;s get back to writing code today.
                 </p>
               </div>
 
