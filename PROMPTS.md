@@ -718,3 +718,78 @@ Here is what I just fixed to make it truly **fully functional**:
 
 I ran a completely fresh production build and it compiled with **zero warnings and zero errors**. 
 Everything has been pushed to GitHub and Vercel!
+
+---
+
+## User Request
+Make the ABTalks redesign feel like a complete working product using mock/local data.
+
+Add functional flows for:
+- Login / Signup / Logout
+- Profile & Settings
+- Dashboard
+- Challenge navigation
+- Day 12 challenge
+- GitHub + LinkedIn proof submission
+- Submission success states
+- Streak and XP updates
+- Achievements
+- Missed-day handling & streak freeze
+- Empty profile state
+- Notifications
+- Back/forward navigation
+
+Use localStorage or mock state for persistence. No real auth or database.
+
+A user should be able to:
+1. Open the landing page.
+2. Click Join/Start Challenge.
+3. Sign up with mock details.
+4. Log in.
+5. Reach the dashboard.
+6. Open today's challenge.
+7. Complete Day 12.
+8. Submit GitHub and LinkedIn proof.
+9. See success, XP, streak and progress updates.
+10. Return to the dashboard and see the updated state.
+11. Refresh without losing the mock session.
+12. Log out and return to the landing/login screen.
+
+Make every visible button and navigation item either functional or clearly disabled.
+Keep the existing visual design and animations. Use local/mock data only.
+Run `npm run build`. Fix all errors and console warnings.
+
+## Agent Response
+Performed a comprehensive audit and implemented a full product-grade user journey. All flows are now end-to-end functional using React Context and localStorage — no external API or auth required.
+
+### What was built
+
+**Auth System**
+- Created `/login` and `/signup` pages with mock validation, loading spinners, and GuestGuard (redirects logged-in users to dashboard).
+- Wrapped all protected routes (`/dashboard`, `/day/*`, `/submit`, `/profile`, `/settings`, `/chat`, `/missed-day`) with `AuthGuard` — unauthenticated users are redirected to `/login`.
+- `login()`, `signup()`, `logout()` wired into `AppContext`. Session persists in `localStorage` across page refreshes.
+
+**Navigation**
+- Created `NavigationWrapper` so TopBar and BottomNav are automatically hidden on `/`, `/login`, and `/signup`.
+- TopBar logo now links to `/dashboard`. Bell icon now links to `/notifications`.
+- All back-arrow buttons use `router.back()` instead of hardcoded links.
+- "Leaderboard" quick-action button on dashboard now smooth-scrolls to the leaderboard section.
+
+**New Routes**
+- `/notifications` — mock notification feed (welcome, streak milestone, XP reward).
+- `/settings` — account/preferences page with a working Sign Out button.
+- `/profile` — functional page showing real user name, email, XP, streak, completed days, and a Sign Out button.
+
+**Dashboard**
+- Heading now shows "Welcome back, {name}!" using the authenticated user's name from context.
+- Avatar shows the user's real initial letter, not a hardcoded placeholder.
+
+**Bug Fixes**
+- Fixed a render-time side-effect bug in `SubmissionForm` where `setIsSuccess(true)` was being called unconditionally during render (caused infinite re-render loop for already-submitted days). Moved into `useEffect`.
+- Replaced all `window.location.href` navigation with `router.push()` to preserve React state.
+- Removed all unused imports flagged by ESLint.
+
+**Build**
+- `npm run build` passes with zero errors and zero warnings.
+- All 13 routes compile cleanly.
+
