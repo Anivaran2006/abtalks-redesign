@@ -14,14 +14,17 @@ export default function LoginPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [error, setError] = React.useState("");
   const { login } = useAppContext();
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
+    setError("");
+    if (!email) { setError("Email is required."); return; }
+    if (!password) { setError("Password is required."); return; }
+    if (password.length < 6) { setError("Password must be at least 6 characters."); return; }
     setIsSubmitting(true);
-    // Mock API call
     setTimeout(() => {
       login(email);
       router.push("/dashboard");
@@ -96,6 +99,9 @@ export default function LoginPage() {
                   >
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
                   </Button>
+                  {error && (
+                    <p className="text-sm text-rose-400 text-center mt-1">{error}</p>
+                  )}
                 </form>
 
                 <div className="mt-6 text-center">

@@ -15,16 +15,19 @@ export default function SignupPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [error, setError] = React.useState("");
   const { signup } = useAppContext();
   const router = useRouter();
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !password) return;
+    setError("");
+    if (!name.trim()) { setError("Full name is required."); return; }
+    if (!email) { setError("Email is required."); return; }
+    if (!password || password.length < 6) { setError("Password must be at least 6 characters."); return; }
     setIsSubmitting(true);
-    // Mock API call
     setTimeout(() => {
-      signup(name, email);
+      signup(name.trim(), email);
       router.push("/dashboard");
     }, 1000);
   };
@@ -111,6 +114,9 @@ export default function SignupPage() {
                   >
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Create Account"}
                   </Button>
+                  {error && (
+                    <p className="text-sm text-rose-400 text-center mt-1">{error}</p>
+                  )}
                 </form>
 
                 <div className="mt-6 text-center">
