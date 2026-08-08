@@ -63,8 +63,8 @@ export function AIMentorCard({ studentName = "Alex", streak = 15 }: AIMentorProp
             </div>
             
             <div className="pt-1">
-              <Button variant="ghost" className="h-8 px-3 text-xs text-fuchsia-300 hover:text-fuchsia-200 hover:bg-fuchsia-500/10 gap-1.5 -ml-3">
-                {message.action} <ArrowRight className="w-3.5 h-3.5" />
+              <Button variant="ghost" className="h-8 px-3 text-xs text-fuchsia-300 hover:text-fuchsia-200 hover:bg-fuchsia-500/10 gap-1.5 -ml-3 flex items-center flex-nowrap whitespace-nowrap">
+                {message.action} <ArrowRight className="w-3.5 h-3.5 shrink-0" />
               </Button>
             </div>
           </div>
