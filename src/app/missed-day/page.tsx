@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Flame, Snowflake, HeartPulse, ShieldAlert, ArrowRight } from "lucide-react";
+import { ArrowLeft, Flame, Snowflake, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -67,7 +67,7 @@ export default function MissedDayPage() {
               <div className="space-y-4">
                 <h1 className="text-3xl font-extrabold text-white">You missed a day.</h1>
                 <p className="text-zinc-400 text-lg max-w-md mx-auto leading-relaxed">
-                  Life happens. The most important thing is that you don't let a single missed day stop your entire momentum. Great developers aren't perfect; they are <strong className="text-white">resilient</strong>.
+                  Life happens. The most important thing is that you don&apos;t let a single missed day stop your entire momentum. Great developers aren&apos;t perfect; they are <strong className="text-white">resilient</strong>.
                 </p>
               </div>
 
@@ -116,7 +116,7 @@ export default function MissedDayPage() {
               <div className="space-y-4">
                 <h1 className="text-3xl font-extrabold text-white">Streak Saved!</h1>
                 <p className="text-blue-200 text-lg max-w-md mx-auto leading-relaxed">
-                  Your 15-Day streak is safely frozen in time. Take a deep breath, and let's get back to writing code today.
+                  Your 15-Day streak is safely frozen in time. Take a deep breath, and let&apos;s get back to writing code today.
                 </p>
               </div>
 

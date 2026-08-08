@@ -2,20 +2,32 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Home, Search, MessageSquare, User } from "lucide-react";
+import { Home, Compass, MessageSquare, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const tabs = [
-  { id: "home", icon: Home, label: "Home" },
-  { id: "search", icon: Search, label: "Search" },
-  { id: "chat", icon: MessageSquare, label: "Chat" },
-  { id: "profile", icon: User, label: "Profile" },
+  { id: "dashboard", icon: Home, label: "Home", href: "/dashboard" },
+  { id: "discover", icon: Compass, label: "Explore", href: "/empty-states" },
+  { id: "chat", icon: MessageSquare, label: "Chat", href: "/chat" },
+  { id: "profile", icon: User, label: "Profile", href: "/profile" },
 ];
 
-interface BottomNavProps extends React.HTMLAttributes<HTMLElement> {}
+type BottomNavProps = React.HTMLAttributes<HTMLElement>;
 
 export function BottomNav({ className, ...props }: BottomNavProps) {
-  const [activeTab, setActiveTab] = React.useState(tabs[0].id);
+  const pathname = usePathname();
+
+  // Determine active tab based on current route
+  const getActiveTab = () => {
+    if (pathname?.includes("/empty-states")) return "discover";
+    if (pathname?.includes("/chat")) return "chat";
+    if (pathname?.includes("/profile")) return "profile";
+    return "dashboard"; // Default to dashboard for / and /dashboard and /day
+  };
+
+  const activeTab = getActiveTab();
 
   return (
     <nav
@@ -31,14 +43,7 @@ export function BottomNav({ className, ...props }: BottomNavProps) {
         const Icon = tab.icon;
         
         return (
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            aria-label={tab.label}
-            aria-current={isActive ? "page" : undefined}
-            className="relative flex flex-col items-center justify-center w-12 h-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-xl"
-          >
+          <Link href={tab.href} key={tab.id} className="relative flex flex-col items-center justify-center w-12 h-12 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-xl">
             {isActive && (
               <motion.div
                 layoutId="bottom-nav-active"
@@ -62,7 +67,7 @@ export function BottomNav({ className, ...props }: BottomNavProps) {
             >
               {tab.label}
             </span>
-          </motion.button>
+          </Link>
         );
       })}
     </nav>

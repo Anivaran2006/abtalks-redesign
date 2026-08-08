@@ -2,11 +2,10 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Flame, Trophy, Play, Upload, BarChart3, Star, Clock } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/Card";
+import { Trophy, Upload, BarChart3 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Progress } from "@/components/ui/Progress";
-import { Badge } from "@/components/ui/Badge";
 import { StreakCard } from "@/components/features/dashboard/StreakCard";
 import { TaskCard } from "@/components/features/dashboard/TaskCard";
 import { AIMentorCard } from "@/components/features/dashboard/AIMentorCard";
@@ -38,7 +37,7 @@ export default function DashboardPage() {
       >
         <div>
           <h1 className="text-3xl font-extrabold tracking-tighter text-white">Welcome back! 👋</h1>
-          <p className="text-sm text-zinc-400 mt-1 font-medium">Here's your progress for today.</p>
+          <p className="text-sm text-zinc-400 mt-1 font-medium">Here&apos;s your progress for today.</p>
         </div>
         <div className="w-10 h-10 rounded-full bg-zinc-800 border-2 border-indigo-500 overflow-hidden shrink-0 relative">
           <Image 
@@ -103,7 +102,7 @@ export default function DashboardPage() {
         <TaskCard
           dayNumber={MOCK_DATA.completedDays + 1}
           title={MOCK_DATA.todayChallenge.title}
-          difficulty={MOCK_DATA.todayChallenge.difficulty as any}
+          difficulty={MOCK_DATA.todayChallenge.difficulty as "Easy" | "Medium" | "Hard"}
           estTime={MOCK_DATA.todayChallenge.estTime}
           skills={MOCK_DATA.todayChallenge.skills}
         />

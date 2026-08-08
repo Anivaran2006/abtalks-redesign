@@ -14,7 +14,7 @@ const Card = React.forwardRef<HTMLDivElement, HTMLMotionProps<"div">>(
       {...props}
     >
       <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/5 pointer-events-none" />
-      {props.children}
+      {props.children as React.ReactNode}
     </motion.div>
   )
 );

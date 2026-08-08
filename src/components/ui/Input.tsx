@@ -2,7 +2,7 @@ import * as React from "react";
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export interface InputProps extends HTMLMotionProps<"input"> {}
+export type InputProps = HTMLMotionProps<"input">;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {

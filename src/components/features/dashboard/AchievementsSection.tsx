@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { MOCK_ACHIEVEMENTS } from "@/lib/mock-data";
-import { Rarity } from "@/types";
+
 
 const rarityConfig = {
   Common: { color: "text-zinc-400", bg: "bg-zinc-500/20", border: "border-zinc-500/30", badge: "bg-zinc-800 text-zinc-300" },

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Flame, CalendarDays, Eye, Repeat, BookOpen, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 
@@ -32,7 +33,7 @@ export function FeaturesSection() {
               </div>
               <h3 className="text-xl font-bold text-zinc-100 mb-2">Streak Tracking</h3>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                Visualizing your daily progress is the ultimate motivation. Don't break the chain.
+                Visualizing your daily progress is the ultimate motivation. Don&apos;t break the chain.
               </p>
             </CardContent>
           </Card>
@@ -89,7 +90,7 @@ export function FeaturesSection() {
               <div className="flex -space-x-3 relative z-10">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="w-8 h-8 rounded-full bg-zinc-800 border-2 border-zinc-950 flex items-center justify-center overflow-hidden">
-                    <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i}&backgroundColor=transparent`} alt="avatar" />
+                    <Image src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i}&backgroundColor=transparent`} alt="avatar" width={32} height={32} unoptimized />
                   </div>
                 ))}
               </div>

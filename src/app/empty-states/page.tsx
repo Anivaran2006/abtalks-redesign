@@ -1,14 +1,10 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import { ArrowLeft, Rocket, AlertTriangle, Flame, UserCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Empty States | AbTalks",
-  description: "Showcase of empty state designs.",
-};
 export default function EmptyStatesShowcase() {
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">

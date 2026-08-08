@@ -1,4 +1,4 @@
-import { Flame, Upload, Clock, Zap, Crown, Award, Code2, Rocket, Trophy, Target, Briefcase, Users } from "lucide-react";
+import { Flame, Upload, Clock, Zap, Crown, Award, Code2, Rocket, Trophy, Target, Users } from "lucide-react";
 import { Achievement, DashboardData, LeaderboardEntry, StatItem, Testimonial } from "@/types";
 
 export const MOCK_DASHBOARD_DATA: DashboardData = {

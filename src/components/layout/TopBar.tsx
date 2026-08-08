@@ -4,8 +4,9 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { Bell, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
-interface TopBarProps extends React.HTMLAttributes<HTMLElement> {}
+type TopBarProps = React.HTMLAttributes<HTMLElement>;
 
 export function TopBar({ className, ...props }: TopBarProps) {
   return (
@@ -16,12 +17,12 @@ export function TopBar({ className, ...props }: TopBarProps) {
       )}
       {...props}
     >
-      <div className="flex items-center gap-2">
-        <div className="bg-gradient-to-tr from-indigo-500 to-violet-500 p-1.5 rounded-lg shadow-lg shadow-indigo-500/25">
+      <Link href="/" className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg">
+        <div className="bg-gradient-to-tr from-indigo-500 to-violet-500 p-1.5 rounded-lg shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
           <Sparkles className="w-4 h-4 text-white" />
         </div>
         <span className="font-bold text-lg tracking-tight text-zinc-100">AbTalks</span>
-      </div>
+      </Link>
       <motion.button 
         aria-label="View Notifications"
         whileHover={{ scale: 1.1, rotate: 10 }}

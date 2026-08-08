@@ -118,7 +118,7 @@ export function SubmissionForm() {
                     <AlertCircle className="w-3 h-3" /> {errors.github}
                   </motion.p>
                 ) : (
-                  <p className="text-xs text-zinc-500 mt-1">The public repository containing today's code.</p>
+                  <p className="text-xs text-zinc-500 mt-1">The public repository containing today&apos;s code.</p>
                 )}
               </AnimatePresence>
             </div>

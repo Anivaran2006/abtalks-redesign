@@ -70,7 +70,7 @@ export function TrustSection() {
           {testimonials.map((t, i) => (
             <Card key={i} className="min-w-[280px] snap-center shrink-0 bg-white/5 border-white/10">
               <CardContent className="p-5 flex flex-col gap-4 h-full justify-between">
-                <p className="text-sm text-zinc-300 leading-relaxed italic">"{t.quote}"</p>
+                <p className="text-sm text-zinc-300 leading-relaxed italic">&quot;{t.quote}&quot;</p>
                 <div className="flex flex-col">
                   <span className="font-semibold text-zinc-100 text-sm">{t.name}</span>
                   <span className="text-xs text-indigo-400">{t.role}</span>

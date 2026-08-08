@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { Rocket, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 
 export function CTASection() {
@@ -42,7 +43,7 @@ export function CTASection() {
           <div className="flex -space-x-2">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="w-8 h-8 rounded-full bg-zinc-800 border-2 border-indigo-900 flex items-center justify-center overflow-hidden">
-                <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i + 10}&backgroundColor=transparent`} alt="avatar" />
+                <Image src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i + 10}&backgroundColor=transparent`} alt="avatar" width={32} height={32} unoptimized />
               </div>
             ))}
           </div>

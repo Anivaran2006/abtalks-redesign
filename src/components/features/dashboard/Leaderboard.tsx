@@ -81,7 +81,7 @@ export function Leaderboard() {
         
         <div className="p-4 text-center border-t border-white/5 bg-black/20">
           <p className="text-xs text-indigo-300 font-medium italic">
-            "Only 230 XP to surpass Michael C. Keep coding!"
+            &quot;Only 230 XP to surpass Michael C. Keep coding!&quot;
           </p>
         </div>
       </CardContent>
