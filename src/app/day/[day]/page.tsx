@@ -45,6 +45,11 @@ const CHALLENGE_DATA = {
 
 export default function ChallengePage() {
   const params = useParams();
+  // In a client component using useParams(), Next.js 15 requires it to be a hook that returns an object, 
+  // wait, useParams returns the parsed params already. But if it's passed as a prop, it's a promise.
+  // Wait, ChallengePage doesn't take params as a prop. It uses useParams.
+  // Wait, useParams doesn't return a promise. Let me check the exact Next.js 15 rules for useParams.
+  // The error was specifically about layout.tsx generating metadata.
   const day = parseInt(params.day as string) || CHALLENGE_DATA.day;
   const { submittedDays } = useAppContext();
   
