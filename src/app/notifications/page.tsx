@@ -32,7 +32,7 @@ function formatTimeAgo(timestamp: number) {
 
 export default function NotificationsPage() {
   const router = useRouter();
-  const { notifications } = useAppContext();
+  const { notifications, isHydrated } = useAppContext();
 
   return (
     <AuthGuard>
@@ -86,7 +86,7 @@ export default function NotificationsPage() {
                           <div className="flex justify-between items-start gap-2 mb-1">
                             <h3 className="font-bold text-white text-sm line-clamp-1">{notif.title}</h3>
                             <span className="text-zinc-600 text-[10px] font-medium whitespace-nowrap shrink-0 mt-0.5">
-                              {formatTimeAgo(notif.timestamp)}
+                              {isHydrated ? formatTimeAgo(notif.timestamp) : ""}
                             </span>
                           </div>
                           <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed">{notif.message}</p>

@@ -45,7 +45,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
           </motion.div>
         )}
-        <span className={cn(isLoading && "opacity-0")}>{children as React.ReactNode}</span>
+        <span className={cn("inline-flex items-center justify-center", isLoading && "opacity-0")}>{children as React.ReactNode}</span>
       </motion.button>
     );
   }

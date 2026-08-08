@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 export default function ChatPage() {
   const router = useRouter();
-  const { chatHistory, addChatMessage } = useAppContext();
+  const { chatHistory, addChatMessage, isHydrated } = useAppContext();
   const [input, setInput] = React.useState("");
   const [isTyping, setIsTyping] = React.useState(false);
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -104,7 +104,7 @@ export default function ChatPage() {
                         "text-[9px] mt-1 opacity-50",
                         isUser ? "text-right text-indigo-100" : "text-left text-zinc-400"
                       )}>
-                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {isHydrated ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ""}
                       </div>
                     </div>
                   </div>
