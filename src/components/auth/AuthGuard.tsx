@@ -13,7 +13,19 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isHydrated) return;
 
-    if (!isAuthenticated) {
+    const isDemoRoute =
+      pathname === "/dashboard" ||
+      pathname?.startsWith("/day/") ||
+      pathname === "/submit" ||
+      pathname === "/profile" ||
+      pathname === "/explore" ||
+      pathname === "/settings" ||
+      pathname === "/notifications" ||
+      pathname === "/chat" ||
+      pathname === "/missed-day" ||
+      pathname === "/empty-states";
+
+    if (!isAuthenticated && !isDemoRoute) {
       router.push("/login");
     } else {
       setAuthorized(true);

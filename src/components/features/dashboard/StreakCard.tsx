@@ -13,7 +13,7 @@ interface StreakCardProps {
 export function StreakCard({ streak, freezesAvailable = 1 }: StreakCardProps) {
   // Generate random particles for the background effect
   const particles = React.useMemo(() => {
-    return Array.from({ length: 12 }).map((_, i) => ({
+    return Array.from({ length: 7 }).map((_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -31,7 +31,7 @@ export function StreakCard({ streak, freezesAvailable = 1 }: StreakCardProps) {
             key={p.id}
             initial={{ opacity: 0, y: `${p.y}%`, x: `${p.x}%` }}
             animate={{
-              opacity: [0, 0.8, 0],
+              opacity: [0, 0.4, 0],
               y: [`${p.y}%`, `${p.y - 20}%`],
             }}
             transition={{

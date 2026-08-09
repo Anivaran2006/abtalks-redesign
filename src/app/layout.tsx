@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
       >
         <AppProvider>
-          <div className="max-w-[390px] mx-auto min-h-screen bg-[#09090b] shadow-2xl shadow-indigo-500/10 overflow-x-hidden relative flex flex-col selection:bg-indigo-500/30">
+          <div className="min-h-screen bg-[#09090b] overflow-x-hidden relative flex flex-col selection:bg-indigo-500/30">
             
             {/* Premium Ambient Background */}
             <div className="fixed inset-0 z-0 pointer-events-none flex justify-center">

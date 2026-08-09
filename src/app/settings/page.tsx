@@ -20,7 +20,7 @@ export default function SettingsPage() {
 
   return (
     <AuthGuard>
-      <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
+      <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32 lg:pb-10">
         {/* Top Navigation Bar */}
         <div className="sticky top-0 z-50 flex items-center justify-between p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
           <Button onClick={() => router.back()} variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
@@ -32,7 +32,7 @@ export default function SettingsPage() {
           <div className="w-10 h-10" />
         </div>
 
-        <div className="flex-1 p-4 sm:p-5 flex flex-col max-w-md mx-auto w-full pt-8 space-y-6">
+        <div className="flex-1 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
             <h2 className="text-lg font-bold mb-3 px-1">Account</h2>
             <Card className="bg-zinc-900/50 border-white/5 divide-y divide-white/5">

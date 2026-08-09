@@ -9,13 +9,13 @@ import { MOCK_LEADERBOARD } from "@/lib/mock-data";
 import { useAppContext } from "@/context/AppContext";
 
 export function Leaderboard() {
-  const { xp } = useAppContext();
+  const { xp, user } = useAppContext();
   
   // Clone, update current user XP, and re-sort
   const dynamicLeaderboard = React.useMemo(() => {
-    const board = MOCK_LEADERBOARD.map(u => u.isCurrentUser ? { ...u, xp } : u);
+    const board = MOCK_LEADERBOARD.map(u => u.isCurrentUser ? { ...u, name: user?.name || "Alex", xp } : u);
     return board.sort((a, b) => b.xp - a.xp).map((u, i) => ({ ...u, rank: 40 + i }));
-  }, [xp]);
+  }, [xp, user]);
 
   const currentUser = dynamicLeaderboard.find(u => u.isCurrentUser);
   const currentUserIndex = dynamicLeaderboard.findIndex(u => u.isCurrentUser);

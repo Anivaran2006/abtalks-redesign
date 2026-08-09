@@ -6,11 +6,8 @@ import { Rocket, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { useAppContext } from "@/context/AppContext";
 
 export function CTASection() {
-  const { isAuthenticated } = useAppContext();
-
   return (
     <section className="w-full py-16 relative z-10 flex flex-col items-center">
       <motion.div
@@ -36,9 +33,9 @@ export function CTASection() {
           whileTap={{ scale: 0.95 }}
           className="w-full relative z-10"
         >
-          <Link href={isAuthenticated ? "/dashboard" : "/signup"} className="w-full">
-            <Button size="lg" className="w-full gap-2 h-14 text-base bg-white text-indigo-950 hover:bg-zinc-200 shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)]">
-              {isAuthenticated ? "Go to Dashboard" : "Start Your 60 Days"}
+          <Link href="/dashboard" className="w-full">
+            <Button size="lg" className="w-full gap-2 h-14 text-base bg-white text-indigo-950 hover:bg-zinc-200 shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)] font-bold">
+              Start 60-Day Challenge
               <Rocket className="w-5 h-5" />
             </Button>
           </Link>

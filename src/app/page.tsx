@@ -9,12 +9,17 @@ import { CTASection } from "@/components/features/landing/CTASection";
 
 export default function Home() {
   return (
-    <div className="flex flex-col p-6 font-[family-name:var(--font-geist-sans)] text-zinc-100 overflow-x-hidden">
+    <div className="font-[family-name:var(--font-geist-sans)] text-zinc-100 overflow-x-hidden">
+      {/* Full-bleed hero section with its own internal responsive layout */}
       <Hero />
-      <TrustSection />
-      <TimelineSection />
-      <FeaturesSection />
-      <CTASection />
+
+      {/* Constrained content sections */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <TrustSection />
+        <TimelineSection />
+        <FeaturesSection />
+        <CTASection />
+      </div>
     </div>
   );
 }

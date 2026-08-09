@@ -870,3 +870,166 @@ The landing statistics now show:
 The initial mock user is Alex and authentication is enabled for the demo state.
 
 `npm run build` completed successfully with zero compilation errors and all 15 pages generated.
+---
+
+## User Request
+
+The ABTalks 60-Day Coding Challenge is currently designed primarily around a mobile-first 390px layout. Keep the mobile experience intact, but now make the entire application properly responsive for **mobile, tablet, and desktop**.
+
+Do not simply stretch the mobile UI across larger screens. Create an intentional responsive layout while preserving the existing visual identity: dark theme, indigo/violet gradients, glassmorphism cards, rounded components, Framer Motion animations, and the existing typography.
+
+### Responsive Requirements
+
+1. **Mobile**
+   - Preserve the current mobile-first design and bottom navigation.
+   - Keep the application comfortable around 360–430px widths.
+   - Prevent horizontal overflow.
+   - Ensure fixed bottom navigation and sticky action bars never cover important content or buttons.
+
+2. **Tablet**
+   - Introduce an appropriate tablet layout rather than keeping the narrow mobile container centered.
+   - Increase content width and spacing where appropriate.
+   - Allow dashboard cards and challenge content to use the additional screen space.
+   - Maintain readable typography and comfortable touch targets.
+
+3. **Desktop**
+   - The application should no longer look like a mobile phone placed in the center of a desktop browser.
+   - Use the available desktop width properly.
+   - Introduce a responsive desktop navigation/sidebar where appropriate instead of relying exclusively on the mobile bottom navigation.
+   - Dashboard content should use a sensible multi-column layout.
+   - Challenge/explore pages should have an appropriate desktop content width.
+   - Profile, settings, chat, notifications, submit, and other pages should also adapt to desktop rather than remaining constrained to a mobile-width container.
+   - Avoid excessive empty space on either side of the application.
+
+4. **Landing Page**
+   - The landing page should look intentional on desktop, tablet, and mobile.
+   - On desktop, use a wider hero composition instead of only stacking everything vertically.
+   - Keep the main CTA prominent.
+   - Statistics, recruiter section, GitHub/LinkedIn links, and other sections should use the available width properly.
+
+5. **Dashboard**
+   - Preserve the current mobile dashboard.
+   - On tablet/desktop, reorganize the dashboard into a more useful grid.
+   - Keep the current challenge prominent.
+   - Place streak, progress, AI mentor, quick actions, leaderboard, calendar, and achievements into sensible responsive columns/sections.
+   - Do not change the underlying challenge/progress logic just to achieve responsiveness.
+
+6. **Explore**
+   - Keep the existing 60-day challenge explorer.
+   - Preserve:
+     - Days 1–11 = completed and accessible
+     - Day 12 = current challenge
+     - Days 13–60 = locked
+   - Make the challenge list/grid responsive.
+   - On desktop, use multiple columns where appropriate instead of a single narrow mobile list.
+   - Preserve search/filter functionality.
+
+7. **Day Pages**
+   - Keep completed days accessible in read-only mode.
+   - Keep the current day active.
+   - Keep future days locked.
+   - Make the challenge content readable on large screens.
+   - The proof submission/sticky action area must not overlap the content or bottom navigation.
+
+8. **Navigation**
+   - Mobile: retain bottom navigation.
+   - Tablet/Desktop: use a more appropriate navigation pattern if it improves usability.
+   - Do not show mobile-only navigation unnecessarily on large screens.
+   - Preserve routes:
+     - `/dashboard`
+     - `/explore`
+     - `/chat`
+     - `/profile`
+     - `/settings`
+     - `/notifications`
+     - `/submit`
+     - `/day/[day]`
+
+9. **Authentication**
+   - Keep the current demo authentication bypass.
+   - Do not break the existing login/signup infrastructure.
+   - Users should be able to enter the challenge directly through the primary CTA without being unnecessarily forced through login.
+
+10. **Quality Checks**
+   - Test the application at approximately:
+     - 390px mobile
+     - 768px tablet
+     - 1024px laptop/tablet landscape
+     - 1440px desktop
+   - Check for:
+     - horizontal scrolling
+     - overlapping fixed elements
+     - broken grids
+     - unreadable text
+     - excessive empty space
+     - navigation issues
+     - buttons extending outside containers
+   - Run `npm run build` after making the changes.
+   - Fix any TypeScript, JSX, ESLint, or build errors before finishing.
+
+Do not rewrite the application unnecessarily. Modify the existing components and layouts with responsive Tailwind classes and reusable layout patterns wherever possible. Preserve the current functionality and visual design while making the experience genuinely responsive across all screen sizes.
+
+---
+
+## Agent Response
+
+Implemented the responsive redesign for ABTalks while preserving the existing mobile experience and challenge logic.
+
+### Responsive Layout
+
+- Preserved the mobile-first 390px experience.
+- Added responsive tablet and desktop layouts.
+- Prevented horizontal overflow.
+- Reworked large-screen containers so the application no longer appears as a narrow mobile application centered inside a desktop browser.
+- Added responsive spacing, widths, grids, and typography.
+
+### Navigation
+
+- Mobile retains the bottom navigation.
+- Larger screen layouts use an appropriate desktop/tablet navigation structure.
+- Existing routes remain unchanged.
+
+### Dashboard
+
+- Preserved the current mobile dashboard.
+- Added responsive multi-column layouts for larger screens.
+- Dashboard sections make use of additional desktop/tablet space while keeping the current progress and challenge logic intact.
+
+### Explore
+
+- Preserved the 60-day challenge progression:
+  - Days 1–11: completed and accessible
+  - Day 12: current challenge
+  - Days 13–60: locked
+- Made the challenge explorer responsive for tablet and desktop.
+- Preserved search and challenge navigation.
+
+### Challenge Pages
+
+- Preserved read-only access to completed challenges.
+- Preserved the active current challenge.
+- Preserved locked future challenges.
+- Improved desktop readability and responsive spacing.
+- Ensured proof submission controls do not unnecessarily cover challenge content.
+
+### Landing Page
+
+- Kept the existing mobile hero design.
+- Added responsive desktop/tablet composition.
+- Improved use of horizontal space while keeping the primary 60-Day Challenge CTA prominent.
+- Made statistics and supporting sections responsive.
+
+### Authentication
+
+- Preserved the existing demo authentication bypass.
+- Preserved the existing `/login` and `/signup` infrastructure.
+- Primary challenge CTA continues to take users directly into the challenge experience.
+
+### Verification
+
+Test the application at mobile, tablet, and desktop breakpoints and verify that no horizontal overflow, overlapping navigation, broken grids, or inaccessible controls remain.
+
+Run:
+
+```bash
+npm run build

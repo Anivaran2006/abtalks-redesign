@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 
@@ -43,10 +44,24 @@ export function ChallengeCalendar({
       <CardContent className="pt-2">
         <div className="grid grid-cols-[repeat(15,minmax(0,1fr))] gap-1.5 sm:gap-2">
           {days.map((status, index) => {
+            const dayNumber = index + 1;
             const isCompleted = status === "completed";
             const isMissed = status === "missed";
             const isCurrent = status === "current";
             const isUpcoming = status === "upcoming";
+            const isAccessible = dayNumber <= currentDay;
+
+            const box = (
+              <div
+                className={cn(
+                  "w-full h-full rounded-[4px] transition-all duration-300",
+                  isCompleted && "bg-emerald-500/80 hover:bg-emerald-400 border border-emerald-400/20 cursor-pointer",
+                  isMissed && "bg-rose-500/80 hover:bg-rose-400 border border-rose-400/20 cursor-pointer",
+                  isCurrent && "bg-indigo-500 border border-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.5)] animate-pulse cursor-pointer",
+                  isUpcoming && "bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-700 cursor-not-allowed opacity-50"
+                )}
+              />
+            );
 
             return (
               <motion.div
@@ -59,23 +74,21 @@ export function ChallengeCalendar({
                 }}
                 className="relative group aspect-square"
               >
-                <div
-                  className={cn(
-                    "w-full h-full rounded-[4px] transition-all duration-300",
-                    isCompleted && "bg-emerald-500/80 hover:bg-emerald-400 border border-emerald-400/20",
-                    isMissed && "bg-rose-500/80 hover:bg-rose-400 border border-rose-400/20",
-                    isCurrent && "bg-indigo-500 border border-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.5)] animate-pulse",
-                    isUpcoming && "bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-700"
-                  )}
-                />
+                {isAccessible ? (
+                  <Link href={`/day/${dayNumber}`} className="block w-full h-full">
+                    {box}
+                  </Link>
+                ) : (
+                  box
+                )}
                 
                 {/* Tooltip */}
                 <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-900 border border-white/10 text-xs font-semibold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                  Day {index + 1}
+                  Day {dayNumber}
                   {isCompleted && " • Completed"}
                   {isMissed && " • Missed"}
                   {isCurrent && " • Today"}
-                  {isUpcoming && " • Upcoming"}
+                  {isUpcoming && " • Locked"}
                 </div>
               </motion.div>
             );

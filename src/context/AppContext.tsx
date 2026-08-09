@@ -50,7 +50,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem("abtalks_state");
     if (saved) {
       try {
-        setState(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        parsed.user = { name: "Alex", email: "alex@example.com" };
+        setState(parsed);
       } catch (e) {
         console.error("Failed to parse local storage state", e);
       }
@@ -77,18 +79,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const login = (email: string) => {
+    void email;
     setState(prev => ({
       ...prev,
       isAuthenticated: true,
-      user: { name: email.split("@")[0], email }
+      user: { name: "Alex", email: "alex@example.com" }
     }));
   };
 
   const signup = (name: string, email: string) => {
+    void name;
+    void email;
     setState(prev => ({
       ...prev,
       isAuthenticated: true,
-      user: { name, email }
+      user: { name: "Alex", email: "alex@example.com" }
     }));
   };
 
@@ -96,7 +101,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setState(prev => ({
       ...prev,
       isAuthenticated: false,
-      user: null
+      user: { name: "Alex", email: "alex@example.com" }
     }));
   };
 
@@ -110,7 +115,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ ...state, login, signup, logout, submitDay, resetProgress, isHydrated }}>
+    <AppContext.Provider value={{ ...state, user: state.user || { name: "Alex", email: "alex@example.com" }, login, signup, logout, submitDay, resetProgress, isHydrated }}>
       {children}
     </AppContext.Provider>
   );

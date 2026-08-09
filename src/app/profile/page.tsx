@@ -21,7 +21,7 @@ export default function ProfilePage() {
 
   return (
     <AuthGuard>
-      <div className="flex flex-col p-4 sm:p-5 pb-32 font-[family-name:var(--font-geist-sans)] text-zinc-100 space-y-6">
+      <div className="max-w-2xl lg:max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 lg:pb-10 font-[family-name:var(--font-geist-sans)] text-zinc-100 space-y-6">
         
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -43,11 +43,11 @@ export default function ProfilePage() {
             <CardContent className="p-6 relative z-10 flex flex-col items-center text-center">
               <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 p-1 mb-4">
                 <div className="w-full h-full bg-zinc-900 rounded-full flex items-center justify-center text-3xl font-bold uppercase border-2 border-zinc-900">
-                  {user?.name.charAt(0) || "U"}
+                  {user?.name?.charAt(0)?.toUpperCase() || "A"}
                 </div>
               </div>
-              <h2 className="text-xl font-bold text-white mb-1">{user?.name || "User"}</h2>
-              <p className="text-sm text-zinc-400 mb-4">{user?.email || "user@example.com"}</p>
+              <h2 className="text-xl font-bold text-white mb-1">{user?.name || "Alex"}</h2>
+              <p className="text-sm text-zinc-400 mb-4">{user?.email || "alex@example.com"}</p>
               
               <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1 bg-zinc-800/50 rounded-full border border-white/5 text-zinc-300">
                 <MapPin className="w-3 h-3 text-indigo-400" />
@@ -58,7 +58,7 @@ export default function ProfilePage() {
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <Card className="bg-zinc-900/50 border-white/5">
               <CardContent className="p-4 flex flex-col items-center justify-center text-center">

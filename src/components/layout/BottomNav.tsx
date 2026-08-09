@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 
 const tabs = [
   { id: "dashboard", icon: Home, label: "Home", href: "/dashboard" },
-  { id: "discover", icon: Compass, label: "Explore", href: "/empty-states" },
+  { id: "discover", icon: Compass, label: "Explore", href: "/explore" },
   { id: "chat", icon: MessageSquare, label: "Chat", href: "/chat" },
   { id: "profile", icon: User, label: "Profile", href: "/profile" },
 ];
@@ -21,7 +21,7 @@ export function BottomNav({ className, ...props }: BottomNavProps) {
 
   // Determine active tab based on current route
   const getActiveTab = () => {
-    if (pathname?.includes("/empty-states")) return "discover";
+    if (pathname?.includes("/explore") || pathname?.includes("/empty-states")) return "discover";
     if (pathname?.includes("/chat")) return "chat";
     if (pathname?.includes("/profile")) return "profile";
     return "dashboard"; // Default to dashboard for / and /dashboard and /day
@@ -33,7 +33,7 @@ export function BottomNav({ className, ...props }: BottomNavProps) {
     <nav
       aria-label="Main Navigation"
       className={cn(
-        "fixed bottom-0 z-50 w-full max-w-[390px] backdrop-blur-2xl bg-[#09090b]/80 border-t border-white/5 px-6 py-4 pb-8 flex items-center justify-between rounded-t-[2.5rem] shadow-[0_-10px_40px_rgba(0,0,0,0.8)]",
+        "fixed bottom-0 left-0 right-0 z-50 backdrop-blur-2xl bg-[#09090b]/80 border-t border-white/5 px-6 py-4 pb-8 flex items-center justify-around shadow-[0_-10px_40px_rgba(0,0,0,0.8)]",
         className
       )}
       {...props}
