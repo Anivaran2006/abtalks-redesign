@@ -45,14 +45,14 @@ export default function ChatPage() {
 
       addChatMessage("mentor", mockResponse);
       setIsTyping(false);
-    }, 1500 + Math.random() * 1000); // 1.5 - 2.5 seconds delay
+    }, 1500 + Math.random() * 1000);
   };
 
   return (
     <AuthGuard>
-      <div className="flex flex-col h-[100dvh] bg-[#09090b] text-zinc-100 font-[family-name:var(--font-geist-sans)]">
+      <div className="flex flex-col h-[calc(100vh-4rem)] lg:h-[calc(100vh-2rem)] bg-[#09090b] text-zinc-100 font-[family-name:var(--font-geist-sans)] relative max-w-4xl mx-auto w-full">
         {/* Header */}
-        <div className="flex-none sticky top-0 z-50 flex items-center p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+        <div className="flex-none sticky top-0 z-30 flex items-center p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
           <Button onClick={() => router.back()} variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white mr-3">
             <ArrowLeft className="w-5 h-5" />
           </Button>
@@ -69,8 +69,8 @@ export default function ChatPage() {
           </div>
         </div>
 
-        {/* Chat Area */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 pb-32 sm:pb-36 space-y-6">
+        {/* Chat Messages Area */}
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 pb-48 lg:pb-36 space-y-6 max-w-2xl mx-auto w-full">
           <div className="text-center mb-8 mt-4">
             <p className="text-xs text-zinc-500 font-medium">This is the beginning of your conversation.</p>
           </div>
@@ -133,37 +133,39 @@ export default function ChatPage() {
           )}
         </div>
 
-        {/* Input Area */}
-        <div className="flex-none fixed bottom-0 left-0 right-0 z-50 p-4 bg-zinc-950/90 backdrop-blur-xl border-t border-white/5 pb-8 sm:pb-4 max-w-md mx-auto">
-          <form onSubmit={handleSend} className="relative flex items-end gap-2">
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask for help or advice..."
-              rows={1}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend(e);
-                }
-              }}
-              className="flex-1 bg-zinc-900 border border-white/10 rounded-2xl pl-4 pr-12 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white placeholder:text-zinc-500 resize-none max-h-32"
-              style={{ minHeight: "52px" }}
-            />
-            <Button 
-              type="submit" 
-              disabled={!input.trim() || isTyping}
-              className={cn(
-                "absolute right-2 bottom-2 w-9 h-9 p-0 rounded-xl transition-all shadow-none",
-                input.trim() ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-zinc-800 text-zinc-500"
-              )}
-            >
-              {isTyping ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 ml-0.5" />}
-            </Button>
-          </form>
-          <p className="text-[10px] text-center text-zinc-500 mt-2">
-            AI can make mistakes. Check your terminal output.
-          </p>
+        {/* Floating Fixed Input Area (Positioned safely above BottomNav on mobile) */}
+        <div className="fixed bottom-[76px] lg:bottom-4 left-0 right-0 z-40 p-4 bg-zinc-950/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
+          <div className="max-w-2xl mx-auto w-full">
+            <form onSubmit={handleSend} className="relative flex items-end gap-2">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask for help or advice..."
+                rows={1}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend(e);
+                  }
+                }}
+                className="flex-1 bg-zinc-900 border border-white/10 rounded-2xl pl-4 pr-12 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white placeholder:text-zinc-500 resize-none max-h-32"
+                style={{ minHeight: "52px" }}
+              />
+              <Button 
+                type="submit" 
+                disabled={!input.trim() || isTyping}
+                className={cn(
+                  "absolute right-2 bottom-2 w-9 h-9 p-0 rounded-xl transition-all shadow-none",
+                  input.trim() ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-zinc-800 text-zinc-500"
+                )}
+              >
+                {isTyping ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 ml-0.5" />}
+              </Button>
+            </form>
+            <p className="text-[10px] text-center text-zinc-500 mt-2">
+              AI can make mistakes. Check your terminal output.
+            </p>
+          </div>
         </div>
       </div>
     </AuthGuard>

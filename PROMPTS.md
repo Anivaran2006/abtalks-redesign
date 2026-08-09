@@ -969,3 +969,22 @@ Run:
 ```bash
 npm run build
 ```
+---
+
+## User Request
+
+Fix the mobile Chat viewport so it uses the full screen width instead of appearing as a small centered container. Preserve the existing BottomNav and composer fix, and ensure tablet/desktop layouts remain responsive.
+
+## Agent Response
+
+Fixed the mobile Chat viewport scaling and preserved the responsive BottomNav, composer, tablet, and desktop layouts.
+
+### Verification
+
+- Mobile Chat uses full viewport width.
+- Composer remains above BottomNav.
+- No horizontal overflow.
+- Tablet/desktop layouts preserved.
+- `npm run build` passes with 0 errors and 0 warnings.
+
+---
