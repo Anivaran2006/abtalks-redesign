@@ -134,9 +134,9 @@ export default function ChatPage() {
         </div>
 
         {/* Floating Fixed Input Area (Positioned safely above BottomNav on mobile) */}
-        <div className="fixed bottom-[76px] lg:bottom-4 left-0 right-0 z-40 p-4 bg-zinc-950/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
+        <div className="fixed bottom-[84px] lg:bottom-4 left-0 right-0 z-40 p-3 sm:p-4 bg-zinc-950/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
           <div className="max-w-2xl mx-auto w-full">
-            <form onSubmit={handleSend} className="relative flex items-end gap-2">
+            <form onSubmit={handleSend} className="relative flex items-center gap-2">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -148,21 +148,21 @@ export default function ChatPage() {
                     handleSend(e);
                   }
                 }}
-                className="flex-1 bg-zinc-900 border border-white/10 rounded-2xl pl-4 pr-12 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white placeholder:text-zinc-500 resize-none max-h-32"
-                style={{ minHeight: "52px" }}
+                className="flex-1 bg-zinc-900 border border-white/10 rounded-2xl pl-3.5 pr-11 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white placeholder:text-zinc-500 resize-none max-h-28"
+                style={{ minHeight: "44px" }}
               />
               <Button 
                 type="submit" 
                 disabled={!input.trim() || isTyping}
                 className={cn(
-                  "absolute right-2 bottom-2 w-9 h-9 p-0 rounded-xl transition-all shadow-none",
+                  "absolute right-1.5 bottom-1.5 w-8 h-8 p-0 rounded-xl transition-all shadow-none",
                   input.trim() ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-zinc-800 text-zinc-500"
                 )}
               >
                 {isTyping ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 ml-0.5" />}
               </Button>
             </form>
-            <p className="text-[10px] text-center text-zinc-500 mt-2">
+            <p className="text-[10px] text-center text-zinc-500 mt-1">
               AI can make mistakes. Check your terminal output.
             </p>
           </div>

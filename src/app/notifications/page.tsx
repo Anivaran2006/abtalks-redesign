@@ -48,7 +48,7 @@ export default function NotificationsPage() {
           <div className="w-10 h-10" />
         </div>
 
-        <div className="flex-1 p-4 sm:p-5 flex flex-col max-w-md mx-auto w-full pt-8 space-y-4">
+        <div className="flex-1 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-4">
           <AnimatePresence>
             {notifications.length === 0 ? (
               <motion.div 
