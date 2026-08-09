@@ -14,8 +14,8 @@ interface ChallengeCalendarProps {
 
 export function ChallengeCalendar({
   totalDays = 60,
-  currentDay = 16,
-  missedDays = [5, 12],
+  currentDay = 12,
+  missedDays = [],
 }: ChallengeCalendarProps) {
   // Generate the 60 days array
   const days = Array.from({ length: totalDays }, (_, i) => {

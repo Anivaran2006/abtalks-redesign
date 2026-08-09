@@ -6,10 +6,10 @@ export const MOCK_DASHBOARD_DATA: DashboardData = {
   totalDays: 60,
   completedDays: 11,
   todayChallenge: {
-    title: "Build a Rate Limiter Middleware",
+    title: "Build a Global State Manager",
     difficulty: "Hard",
-    estTime: "45 mins",
-    skills: ["Node.js", "Redis", "Express"],
+    estTime: "1.5 hours",
+    skills: ["React", "Context", "useReducer"],
   },
   achievements: [
     { name: "7-Day Warrior", icon: Flame, color: "text-orange-400" },
