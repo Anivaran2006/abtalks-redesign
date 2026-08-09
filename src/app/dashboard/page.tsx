@@ -26,12 +26,12 @@ const Leaderboard = dynamic(() => import("@/components/features/dashboard/Leader
 });
 
 export default function DashboardPage() {
-  const { streak, submittedDays, totalDays, user } = useAppContext();
+  const { streak, submittedDays, totalDays, user, submittedToday } = useAppContext();
   const leaderboardRef = React.useRef<HTMLElement>(null);
   const completedDays = submittedDays.length;
   const progressPercent = (completedDays / totalDays) * 100;
 
-  // Derive today's challenge from the shared CHALLENGES catalog — same source as /day/[day] and Explore
+  // Derive current/next challenge from the shared CHALLENGES catalog
   const currentDayNumber = completedDays + 1;
   const challengeData = CHALLENGES.find(c => c.day === currentDayNumber);
   const todayChallenge = {
@@ -55,7 +55,9 @@ export default function DashboardPage() {
             <h1 className="text-2xl font-extrabold tracking-tight text-white leading-tight">
               Welcome back, {user?.name || "Coder"}! 👋
             </h1>
-            <p className="text-sm text-zinc-400 mt-0.5 font-medium">Here&apos;s your progress for today.</p>
+            <p className="text-sm text-zinc-400 mt-0.5 font-medium">
+              {submittedToday ? "You have completed today's challenge! Next challenge unlocks tomorrow." : "Here's your progress for today."}
+            </p>
           </div>
           <Link href="/profile" className="shrink-0 group">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 border-2 border-indigo-500 flex items-center justify-center text-white font-bold text-sm shrink-0 group-hover:scale-105 transition-transform cursor-pointer shadow-lg shadow-indigo-500/20">
@@ -83,6 +85,8 @@ export default function DashboardPage() {
                 difficulty={todayChallenge.difficulty}
                 estTime={todayChallenge.estTime}
                 skills={todayChallenge.skills}
+                isLocked={submittedToday}
+                lockedReason="Unlocks Tomorrow"
               />
             </motion.div>
 
@@ -107,11 +111,17 @@ export default function DashboardPage() {
               transition={{ delay: 0.25 }}
               className="flex gap-3"
             >
-              <Link href="/submit" className="flex-1">
-                <Button variant="secondary" className="w-full gap-2 border-white/10 group">
-                  <Upload className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" /> Submit Proof
+              {submittedToday ? (
+                <Button disabled variant="secondary" className="flex-1 gap-2 border-white/10 opacity-50 cursor-not-allowed">
+                  <Upload className="w-4 h-4 text-zinc-500" /> Completed for Today
                 </Button>
-              </Link>
+              ) : (
+                <Link href="/submit" className="flex-1">
+                  <Button variant="secondary" className="w-full gap-2 border-white/10 group">
+                    <Upload className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" /> Submit Proof
+                  </Button>
+                </Link>
+              )}
               <Link href="/leaderboard" className="flex-1">
                 <Button
                   variant="secondary" className="w-full gap-2 border-white/10 group"
@@ -128,7 +138,7 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <ChallengeCalendar currentDay={completedDays + 1} missedDays={[]} totalDays={totalDays} />
+              <ChallengeCalendar currentDay={completedDays + 1} submittedDays={submittedDays} submittedToday={submittedToday} missedDays={[]} totalDays={totalDays} />
             </motion.section>
 
             {/* Achievements */}

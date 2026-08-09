@@ -30,10 +30,19 @@ export type NotificationMessage = {
   timestamp: number;
 };
 
+export function getTodayDateString(): string {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 type AppState = {
   user: MockUser | null;
   isAuthenticated: boolean;
   submittedDays: number[];
+  lastSubmissionDate: string | null;
   streak: number;
   xp: number;
   totalDays: number;
@@ -42,6 +51,7 @@ type AppState = {
 };
 
 type AppContextType = AppState & {
+  submittedToday: boolean;
   login: (email: string) => void;
   signup: (name: string, email: string) => void;
   logout: () => void;
@@ -56,6 +66,7 @@ const INITIAL_MOCK_STATE: AppState = {
   user: { name: "Alex", email: "alex@example.com" },
   isAuthenticated: true,
   submittedDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  lastSubmissionDate: null,
   streak: 11,
   xp: 14000,
   totalDays: 60,
@@ -93,6 +104,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           ...prev,
           ...parsed,
           user: parsed.user !== undefined ? parsed.user : prev.user,
+          lastSubmissionDate: parsed.lastSubmissionDate !== undefined ? parsed.lastSubmissionDate : prev.lastSubmissionDate,
         }));
       } catch (e) {
         console.error("Failed to parse local storage state", e);
@@ -113,6 +125,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       
       const newStreak = prev.streak + 1;
       const newXp = prev.xp + 500;
+      const todayStr = getTodayDateString();
       const newNotifications = [...prev.notifications];
       
       newNotifications.unshift({
@@ -135,7 +148,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
       return {
         ...prev,
-        submittedDays: [...prev.submittedDays, day],
+        submittedDays: [...prev.submittedDays, day].sort((a, b) => a - b),
+        lastSubmissionDate: todayStr,
         streak: newStreak,
         xp: newXp,
         notifications: newNotifications,
@@ -153,6 +167,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           isAuthenticated: true,
           user: { name: "Alex", email: "alex@example.com" },
           submittedDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+          lastSubmissionDate: null,
           streak: 11,
           xp: 14000,
         };
@@ -165,6 +180,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated: true,
         user: existingUser || { name: "", email: email.trim() },
         submittedDays: existingUser ? prev.submittedDays : [],
+        lastSubmissionDate: existingUser ? prev.lastSubmissionDate : null,
         streak: existingUser ? prev.streak : 0,
         xp: existingUser ? prev.xp : 0,
       };
@@ -180,6 +196,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       user: newUser,
       isAuthenticated: true,
       submittedDays: [],
+      lastSubmissionDate: null,
       streak: 0,
       xp: 0,
       totalDays: 60,
@@ -208,6 +225,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       user: null,
       isAuthenticated: false,
       submittedDays: [],
+      lastSubmissionDate: null,
       streak: 0,
       xp: 0,
       totalDays: 60,
@@ -223,6 +241,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setState(prev => ({
       ...prev,
       submittedDays: [],
+      lastSubmissionDate: null,
       streak: 0,
       xp: 0,
     }));
@@ -250,8 +269,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const submittedToday = state.lastSubmissionDate === getTodayDateString();
+
   return (
-    <AppContext.Provider value={{ ...state, login, signup, logout, submitDay, resetProgress, updateUser, addChatMessage, isHydrated }}>
+    <AppContext.Provider value={{ ...state, submittedToday, login, signup, logout, submitDay, resetProgress, updateUser, addChatMessage, isHydrated }}>
       {children}
     </AppContext.Provider>
   );

@@ -20,12 +20,14 @@ import { CHALLENGES } from "@/lib/challenges";
 
 export default function ChallengePage() {
   const params = useParams();
-  const day = parseInt(params.day as string) || 12;
-  const { submittedDays } = useAppContext();
+  const { submittedDays, submittedToday } = useAppContext();
   
-  const currentActiveDay = submittedDays.length + 1;
+  const nextDay = submittedDays.length + 1;
+  const rawDay = parseInt(params.day as string);
+  const day = isNaN(rawDay) || rawDay < 1 ? nextDay : rawDay;
   const isSubmitted = submittedDays.includes(day);
-  const isLocked = day > currentActiveDay;
+  const isNextLocked = day === nextDay && submittedToday;
+  const isLocked = day > nextDay || isNextLocked;
 
   // Find the challenge from catalog
   const challenge = React.useMemo(() => {
@@ -81,6 +83,36 @@ export default function ChallengePage() {
     }
   };
 
+  if (isNextLocked) {
+    return (
+      <AuthGuard>
+        <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)] pb-32">
+          <div className="sticky top-0 z-50 flex items-center p-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+            <Link href="/dashboard">
+              <Button variant="ghost" className="w-10 h-10 p-0 rounded-full border border-white/10 text-zinc-400 hover:text-white">
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center max-w-md mx-auto w-full">
+            <div className="w-20 h-20 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mb-6 shadow-2xl">
+              <Lock className="w-8 h-8 text-amber-400" />
+            </div>
+            <h2 className="text-2xl font-bold text-white mb-2">Unlocks Tomorrow</h2>
+            <p className="text-zinc-400 mb-8 leading-relaxed">
+              Great job completing today&apos;s challenge! Day {day} will unlock on the next calendar day. Take a rest and come back tomorrow!
+            </p>
+            <Link href="/dashboard">
+              <Button className="w-full bg-white text-indigo-950 hover:bg-zinc-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                Back to Dashboard
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </AuthGuard>
+    );
+  }
+
   if (isLocked) {
     return (
       <AuthGuard>
@@ -98,11 +130,11 @@ export default function ChallengePage() {
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">Day Locked</h2>
             <p className="text-zinc-400 mb-8 leading-relaxed">
-              You cannot access Day {day} yet. You are currently on Day {currentActiveDay}. Complete your active challenge first!
+              You cannot access Day {day} yet. You are currently on Day {nextDay}. Complete your active challenge first!
             </p>
-            <Link href={`/day/${currentActiveDay}`}>
+            <Link href={`/day/${nextDay}`}>
               <Button className="w-full bg-white text-indigo-950 hover:bg-zinc-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                Go to Day {currentActiveDay}
+                Go to Day {nextDay}
               </Button>
             </Link>
           </div>
@@ -282,7 +314,7 @@ export default function ChallengePage() {
             ) : (
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs font-medium text-zinc-400 hidden sm:block">Done with the code?</p>
-                <Link href="/submit" className="w-full sm:w-auto">
+                <Link href={`/submit?day=${day}`} className="w-full sm:w-auto">
                   <Button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 text-sm">
                     Submit Proof of Work
                   </Button>

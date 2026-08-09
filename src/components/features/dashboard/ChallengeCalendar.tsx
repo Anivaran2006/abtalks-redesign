@@ -10,19 +10,23 @@ interface ChallengeCalendarProps {
   totalDays?: number;
   currentDay?: number; // 1-indexed
   missedDays?: number[]; // Array of 1-indexed days
+  submittedDays?: number[]; // Array of submitted day numbers
+  submittedToday?: boolean;
 }
 
 export function ChallengeCalendar({
   totalDays = 60,
   currentDay = 12,
   missedDays = [],
+  submittedDays,
+  submittedToday = false,
 }: ChallengeCalendarProps) {
   // Generate the 60 days array
   const days = Array.from({ length: totalDays }, (_, i) => {
     const dayNumber = i + 1;
-    if (dayNumber === currentDay) return "current";
+    if (submittedDays?.includes(dayNumber)) return "completed";
+    if (dayNumber === currentDay) return submittedToday ? "next_locked" : "current";
     if (missedDays.includes(dayNumber)) return "missed";
-    if (dayNumber < currentDay) return "completed";
     return "upcoming";
   });
 
@@ -48,8 +52,9 @@ export function ChallengeCalendar({
             const isCompleted = status === "completed";
             const isMissed = status === "missed";
             const isCurrent = status === "current";
+            const isNextLocked = status === "next_locked";
             const isUpcoming = status === "upcoming";
-            const isAccessible = dayNumber <= currentDay;
+            const isAccessible = isCompleted || isCurrent;
 
             const box = (
               <div
@@ -58,6 +63,7 @@ export function ChallengeCalendar({
                   isCompleted && "bg-emerald-500/80 hover:bg-emerald-400 border border-emerald-400/20 cursor-pointer",
                   isMissed && "bg-rose-500/80 hover:bg-rose-400 border border-rose-400/20 cursor-pointer",
                   isCurrent && "bg-indigo-500 border border-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.5)] animate-pulse cursor-pointer",
+                  isNextLocked && "bg-amber-500/30 border border-amber-400/40 cursor-not-allowed opacity-80",
                   isUpcoming && "bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-700 cursor-not-allowed opacity-50"
                 )}
               />
@@ -87,7 +93,8 @@ export function ChallengeCalendar({
                   Day {dayNumber}
                   {isCompleted && " • Completed"}
                   {isMissed && " • Missed"}
-                  {isCurrent && " • Today"}
+                  {isCurrent && " • Current"}
+                  {isNextLocked && " • Unlocks Tomorrow"}
                   {isUpcoming && " • Locked"}
                 </div>
               </motion.div>

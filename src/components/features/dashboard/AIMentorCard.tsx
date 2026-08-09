@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
+import { CHALLENGES } from "@/lib/challenges";
+
 interface AIMentorProps {
   studentName?: string;
   streak?: number;
@@ -14,27 +16,22 @@ interface AIMentorProps {
 }
 
 export function AIMentorCard({ studentName = "Coder", streak = 0, completedDays = 0 }: AIMentorProps) {
-  void completedDays;
+  const currentDay = completedDays + 1;
+  const currentChallenge = CHALLENGES.find(c => c.day === currentDay);
+  const challengeTitle = currentChallenge ? currentChallenge.title : `Day ${currentDay} Challenge`;
 
   const getMentorMessage = () => {
-    if (streak > 10) {
-      return {
-        greeting: `You're on fire, ${studentName}!`,
-        tip: `🔥 ${streak}-day streak. Today: Build a Global State Manager. Review React Context & useReducer before coding.`,
-        action: "Review Context Docs",
-      };
-    }
-    if (streak > 5) {
+    if (streak > 0) {
       return {
         greeting: `Great momentum, ${studentName}!`,
-        tip: `🔥 ${streak} days strong. Consistency beats intensity — keep showing up daily.`,
-        action: "Start Today's Challenge",
+        tip: `🔥 ${streak}-day streak. Today (Day ${currentDay}): ${challengeTitle}. Consistency beats intensity!`,
+        action: `Go to Day ${currentDay} Challenge`,
       };
     }
     return {
       greeting: `Let's go, ${studentName}!`,
-      tip: "Every expert was once a beginner. Your coding journey starts with today's challenge.",
-      action: "Start Today's Challenge",
+      tip: `Every expert was once a beginner. Your coding journey starts with Day ${currentDay}: ${challengeTitle}.`,
+      action: `Start Day ${currentDay} Challenge`,
     };
   };
 
@@ -70,7 +67,7 @@ export function AIMentorCard({ studentName = "Coder", streak = 0, completedDays 
           <p className="text-sm text-zinc-300 leading-relaxed">{message.tip}</p>
         </div>
 
-        <Link href={`/day/${completedDays + 1}`}>
+        <Link href={`/day/${currentDay}`}>
           <Button
             variant="ghost"
             className="h-8 px-3 text-xs text-fuchsia-300 hover:text-fuchsia-200 hover:bg-fuchsia-500/10 gap-1.5 -ml-3 flex items-center"

@@ -18,8 +18,8 @@ const DIFFICULTY_COLORS = {
 };
 
 export default function ExplorePage() {
-  const { submittedDays } = useAppContext();
-  const currentActiveDay = submittedDays.length + 1;
+  const { submittedDays, submittedToday } = useAppContext();
+  const nextDay = submittedDays.length + 1;
 
   const [query, setQuery] = React.useState("");
   const [selectedTopic, setSelectedTopic] = React.useState<Topic>("All");
@@ -187,8 +187,9 @@ export default function ExplorePage() {
               <AnimatePresence mode="popLayout">
                 {filteredChallenges.map((challenge, i) => {
                   const isCompleted = submittedDays.includes(challenge.day);
-                  const isActive = challenge.day === currentActiveDay;
-                  const isLocked = challenge.day > currentActiveDay;
+                  const isNextLocked = challenge.day === nextDay && submittedToday;
+                  const isActive = challenge.day === nextDay && !submittedToday;
+                  const isLocked = challenge.day > nextDay || isNextLocked;
 
                   return (
                     <motion.div
@@ -205,7 +206,8 @@ export default function ExplorePage() {
                             "border transition-all duration-200 overflow-hidden group",
                             isCompleted && "bg-emerald-950/20 border-emerald-500/20 hover:border-emerald-500/40",
                             isActive && "bg-indigo-950/30 border-indigo-500/40 hover:border-indigo-500/70 shadow-lg shadow-indigo-500/10",
-                            isLocked && "bg-zinc-900/30 border-white/5 opacity-60 cursor-not-allowed",
+                            isNextLocked && "bg-amber-950/20 border-amber-500/30 cursor-not-allowed",
+                            isLocked && !isNextLocked && "bg-zinc-900/30 border-white/5 opacity-60 cursor-not-allowed",
                             !isCompleted && !isActive && !isLocked && "bg-zinc-900/40 border-white/8 hover:border-white/20 hover:bg-zinc-900/60"
                           )}
                         >
@@ -216,8 +218,8 @@ export default function ExplorePage() {
                                 "w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black shrink-0",
                                 isCompleted && "bg-emerald-500/20 text-emerald-400",
                                 isActive && "bg-indigo-500/30 text-indigo-300",
-                                isLocked && "bg-zinc-800 text-zinc-600",
-                                !isCompleted && !isActive && !isLocked && "bg-white/5 text-zinc-400"
+                                isNextLocked && "bg-amber-500/20 text-amber-400",
+                                isLocked && !isNextLocked && "bg-zinc-800 text-zinc-600"
                               )}
                             >
                               {isCompleted ? "✓" : isLocked ? <Lock className="w-4 h-4" /> : challenge.day}
@@ -234,12 +236,17 @@ export default function ExplorePage() {
                                     CURRENT
                                   </span>
                                 )}
+                                {isNextLocked && (
+                                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300">
+                                    UNLOCKS TOMORROW
+                                  </span>
+                                )}
                                 {isCompleted && (
                                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                                     COMPLETED
                                   </span>
                                 )}
-                                {isLocked && (
+                                {isLocked && !isNextLocked && (
                                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-zinc-800/50 border border-zinc-700/50 text-zinc-500">
                                     LOCKED
                                   </span>
