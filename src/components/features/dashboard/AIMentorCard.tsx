@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Bot, Sparkles, Lightbulb, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import Link from "next/link";
 
 interface AIMentorProps {
   studentName?: string;
@@ -69,14 +70,15 @@ export function AIMentorCard({ studentName = "Coder", streak = 0, completedDays 
           <p className="text-sm text-zinc-300 leading-relaxed">{message.tip}</p>
         </div>
 
-        {/* Action button */}
-        <Button
-          variant="ghost"
-          className="h-8 px-3 text-xs text-fuchsia-300 hover:text-fuchsia-200 hover:bg-fuchsia-500/10 gap-1.5 -ml-3 flex items-center"
-        >
-          {message.action}
-          <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-        </Button>
+        <Link href={`/day/${completedDays + 1}`}>
+          <Button
+            variant="ghost"
+            className="h-8 px-3 text-xs text-fuchsia-300 hover:text-fuchsia-200 hover:bg-fuchsia-500/10 gap-1.5 -ml-3 flex items-center"
+          >
+            {message.action}
+            <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );
