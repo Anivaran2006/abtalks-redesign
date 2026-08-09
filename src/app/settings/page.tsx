@@ -15,7 +15,7 @@ export default function SettingsPage() {
 
   const handleLogout = () => {
     logout();
-    router.push("/");
+    router.push("/login");
   };
 
   return (

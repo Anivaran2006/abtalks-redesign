@@ -988,3 +988,28 @@ Fixed the mobile Chat viewport scaling and preserved the responsive BottomNav, c
 - `npm run build` passes with 0 errors and 0 warnings.
 
 ---
+## User Request
+
+Update the leaderboard and profile navigation.
+
+- Make the dashboard Leaderboard button open `/leaderboard`.
+- Show full rankings from #1 with name, XP, and movement.
+- Calculate ranks dynamically from XP; do not hardcode Alex's rank.
+- Highlight the currently logged-in user.
+- Keep the dashboard leaderboard as a preview.
+- Make the top-right avatar/profile icon open `/profile`.
+- Keep mobile, tablet, and desktop layouts responsive.
+
+## Agent Response
+
+Updated the leaderboard and profile navigation with dynamic ranking and profile access.
+
+### Verification
+
+- Dedicated `/leaderboard` page added.
+- Rankings start from #1 and calculate dynamically from XP.
+- Current user is highlighted dynamically.
+- Dashboard leaderboard remains as a preview.
+- Top-right profile/avatar opens `/profile`.
+- Mobile/tablet/desktop layouts preserved.
+- `npm run build` passes with 0 errors and 0 warnings.

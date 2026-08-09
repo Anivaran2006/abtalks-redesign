@@ -57,9 +57,11 @@ export default function DashboardPage() {
             </h1>
             <p className="text-sm text-zinc-400 mt-0.5 font-medium">Here&apos;s your progress for today.</p>
           </div>
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 border-2 border-indigo-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
-            {user?.name?.charAt(0)?.toUpperCase() || "A"}
-          </div>
+          <Link href="/profile" className="shrink-0 group">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 border-2 border-indigo-500 flex items-center justify-center text-white font-bold text-sm shrink-0 group-hover:scale-105 transition-transform cursor-pointer shadow-lg shadow-indigo-500/20">
+              {user?.name?.trim() ? user.name.trim().charAt(0).toUpperCase() : "U"}
+            </div>
+          </Link>
         </motion.div>
 
         {/* === RESPONSIVE GRID === */}
@@ -110,12 +112,13 @@ export default function DashboardPage() {
                   <Upload className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" /> Submit Proof
                 </Button>
               </Link>
-              <Button
-                onClick={() => leaderboardRef.current?.scrollIntoView({ behavior: "smooth" })}
-                variant="secondary" className="flex-1 gap-2 border-white/10 group"
-              >
-                <BarChart3 className="w-4 h-4 text-fuchsia-400 group-hover:scale-110 transition-transform" /> Leaderboard
-              </Button>
+              <Link href="/leaderboard" className="flex-1">
+                <Button
+                  variant="secondary" className="w-full gap-2 border-white/10 group"
+                >
+                  <BarChart3 className="w-4 h-4 text-fuchsia-400 group-hover:scale-110 transition-transform" /> Leaderboard
+                </Button>
+              </Link>
             </motion.nav>
 
             {/* Challenge Calendar — below fold on mobile, left column on desktop */}

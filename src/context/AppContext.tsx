@@ -73,7 +73,7 @@ const INITIAL_MOCK_STATE: AppState = {
       title: "Welcome to AbTalks",
       message: "You have successfully joined the 60-day challenge. Your journey starts now!",
       type: "welcome",
-      timestamp: Date.now() - 86400000 * 11, // 11 days ago
+      timestamp: Date.now() - 86400000 * 11,
     }
   ]
 };
@@ -92,7 +92,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setState((prev) => ({
           ...prev,
           ...parsed,
-          user: parsed.user || { name: "Alex", email: "alex@example.com" },
+          user: parsed.user !== undefined ? parsed.user : prev.user,
         }));
       } catch (e) {
         console.error("Failed to parse local storage state", e);
@@ -115,7 +115,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const newXp = prev.xp + 500;
       const newNotifications = [...prev.notifications];
       
-      // XP Notification
       newNotifications.unshift({
         id: `xp-${day}-${Date.now()}`,
         title: "Level Up!",
@@ -124,7 +123,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         timestamp: Date.now(),
       });
 
-      // Streak Milestone Notification
       if (newStreak % 5 === 0 || newStreak === 7 || newStreak === 12) {
         newNotifications.unshift({
           id: `streak-${newStreak}-${Date.now()}`,
@@ -146,30 +144,79 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const login = (email: string) => {
-    void email;
-    setState(prev => ({
-      ...prev,
-      isAuthenticated: true,
-      user: { name: "Alex", email: "alex@example.com" }
-    }));
+    const trimmedEmail = email.trim().toLowerCase();
+    setState(prev => {
+      // If logging in as Alex, restore Alex demo state
+      if (trimmedEmail === "alex@example.com" || trimmedEmail === "alex") {
+        return {
+          ...prev,
+          isAuthenticated: true,
+          user: { name: "Alex", email: "alex@example.com" },
+          submittedDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+          streak: 11,
+          xp: 14000,
+        };
+      }
+      
+      // If logging in as existing saved user, preserve user state; otherwise start fresh user state
+      const existingUser = prev.user && prev.user.email.toLowerCase() === trimmedEmail ? prev.user : null;
+      return {
+        ...prev,
+        isAuthenticated: true,
+        user: existingUser || { name: "", email: email.trim() },
+        submittedDays: existingUser ? prev.submittedDays : [],
+        streak: existingUser ? prev.streak : 0,
+        xp: existingUser ? prev.xp : 0,
+      };
+    });
   };
 
   const signup = (name: string, email: string) => {
-    void name;
-    void email;
-    setState(prev => ({
-      ...prev,
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const newUser = { name: trimmedName, email: trimmedEmail };
+    
+    setState({
+      user: newUser,
       isAuthenticated: true,
-      user: { name: "Alex", email: "alex@example.com" }
-    }));
+      submittedDays: [],
+      streak: 0,
+      xp: 0,
+      totalDays: 60,
+      chatHistory: [
+        {
+          id: `welcome-chat-${Date.now()}`,
+          role: "mentor",
+          content: `Welcome to the 60-day challenge${trimmedName ? `, ${trimmedName}` : ""}! I'm your AI mentor. Ready for Day 1?`,
+          timestamp: Date.now(),
+        }
+      ],
+      notifications: [
+        {
+          id: `welcome-${Date.now()}`,
+          title: "Welcome to AbTalks",
+          message: "You have successfully created your account. Your 60-day coding journey starts now!",
+          type: "welcome",
+          timestamp: Date.now(),
+        }
+      ]
+    });
   };
 
   const logout = () => {
-    setState(prev => ({
-      ...prev,
+    setState({
+      user: null,
       isAuthenticated: false,
-      user: { name: "Alex", email: "alex@example.com" }
-    }));
+      submittedDays: [],
+      streak: 0,
+      xp: 0,
+      totalDays: 60,
+      chatHistory: [],
+      notifications: [],
+    });
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("abtalks_state");
+    }
   };
 
   const resetProgress = () => {
@@ -184,7 +231,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const updateUser = (name: string, email: string) => {
     setState(prev => ({
       ...prev,
-      user: prev.user ? { ...prev.user, name, email } : { name, email }
+      user: { name: name.trim(), email: email.trim() }
     }));
   };
 
@@ -204,7 +251,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ ...state, user: state.user || { name: "Alex", email: "alex@example.com" }, login, signup, logout, submitDay, resetProgress, updateUser, addChatMessage, isHydrated }}>
+    <AppContext.Provider value={{ ...state, login, signup, logout, submitDay, resetProgress, updateUser, addChatMessage, isHydrated }}>
       {children}
     </AppContext.Provider>
   );

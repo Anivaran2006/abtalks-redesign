@@ -27,7 +27,7 @@ export default function ProfilePage() {
 
   const handleLogout = () => {
     logout();
-    router.push("/");
+    router.push("/login");
   };
 
   const handleSave = () => {
@@ -74,7 +74,7 @@ export default function ProfilePage() {
             <CardContent className="p-6 relative z-10 flex flex-col items-center text-center">
               <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 p-1 mb-4 shadow-lg shadow-indigo-500/20">
                 <div className="w-full h-full bg-zinc-900 rounded-full flex items-center justify-center text-3xl font-bold uppercase border-2 border-zinc-900">
-                  {user?.name?.charAt(0)?.toUpperCase() || "A"}
+                  {user?.name?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || "?"}
                 </div>
               </div>
               
@@ -103,8 +103,8 @@ export default function ProfilePage() {
                 </div>
               ) : (
                 <>
-                  <h2 className="text-xl font-bold text-white mb-1">{user?.name || "Alex"}</h2>
-                  <p className="text-sm text-zinc-400 mb-4">{user?.email || "alex@example.com"}</p>
+                  <h2 className="text-xl font-bold text-white mb-1">{user?.name || "Unset Name"}</h2>
+                  <p className="text-sm text-zinc-400 mb-4">{user?.email || "No email set"}</p>
                 </>
               )}
               

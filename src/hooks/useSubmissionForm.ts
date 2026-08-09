@@ -25,8 +25,8 @@ export function useSubmissionForm(day: number) {
     }
 
     if (!linkedinUrl) newErrors.linkedin = "LinkedIn post URL is required.";
-    else if (!linkedinUrl.includes("linkedin.com/posts/")) {
-      newErrors.linkedin = "Must be a valid LinkedIn post URL.";
+    else if (!linkedinUrl.includes("linkedin.com")) {
+      newErrors.linkedin = "Must be a valid LinkedIn URL.";
     }
 
     setErrors(newErrors);

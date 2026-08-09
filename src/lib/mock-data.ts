@@ -32,9 +32,10 @@ export const MOCK_ACHIEVEMENTS: Achievement[] = [
 export const MOCK_LEADERBOARD: LeaderboardEntry[] = [
   { rank: 40, name: "Sarah J.", xp: 14850, trend: "up" },
   { rank: 41, name: "Michael C.", xp: 14620, trend: "down" },
-  { rank: 42, name: "Alex", xp: 14000, trend: "up", isCurrentUser: true },
-  { rank: 43, name: "David K.", xp: 14100, trend: "flat" },
-  { rank: 44, name: "Emma W.", xp: 13950, trend: "up" },
+  { rank: 42, name: "David K.", xp: 14100, trend: "flat" },
+  { rank: 43, name: "Emma W.", xp: 13950, trend: "up" },
+  { rank: 44, name: "Lucas M.", xp: 12500, trend: "up" },
+  { rank: 45, name: "DevCoder", xp: 500, trend: "up" },
 ];
 
 export const MOCK_TRUST_STATS: StatItem[] = [

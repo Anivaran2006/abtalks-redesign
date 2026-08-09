@@ -22,6 +22,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
       pathname === "/settings" ||
       pathname === "/notifications" ||
       pathname === "/chat" ||
+      pathname === "/leaderboard" ||
       pathname === "/missed-day" ||
       pathname === "/empty-states";
 
