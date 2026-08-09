@@ -24,7 +24,7 @@ export function TopBar({ className, ...props }: TopBarProps) {
         <span className="font-bold text-lg tracking-tight text-zinc-100">AbTalks</span>
       </Link>
       <Link href="/notifications">
-        <motion.button 
+        <motion.div 
           aria-label="View Notifications"
           whileHover={{ scale: 1.1, rotate: 10 }}
           whileTap={{ scale: 0.9 }}
@@ -32,7 +32,7 @@ export function TopBar({ className, ...props }: TopBarProps) {
         >
           <Bell className="w-5 h-5" />
           <span className="absolute top-2 right-2.5 w-2 h-2 bg-indigo-500 rounded-full border border-zinc-950" />
-        </motion.button>
+        </motion.div>
       </Link>
     </header>
   );
