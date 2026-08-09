@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Settings, LogOut, Award, Flame, Star, MapPin, Edit2, Check, X } from "lucide-react";
+import { Settings, LogOut, Award, Flame, Star, MapPin, Edit2, Check, X, User as UserIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useAppContext } from "@/context/AppContext";
@@ -109,6 +109,12 @@ export default function ProfilePage() {
               )}
               
               {!isEditing && (
+                <Button onClick={() => setIsEditing(true)} variant="ghost" className="h-7 px-3 text-xs text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 mb-3 rounded-full border border-indigo-500/20">
+                  <Edit2 className="w-3 h-3 mr-1.5" /> Complete Profile
+                </Button>
+              )}
+
+              {!isEditing && (
                 <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1 bg-zinc-800/50 rounded-full border border-white/5 text-zinc-300">
                   <MapPin className="w-3 h-3 text-indigo-400" />
                   Earth
@@ -117,6 +123,26 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
         </motion.div>
+
+        {/* Empty Profile / Incomplete Profile Banner */}
+        {!isEditing && (!user?.name || user?.name === "") && (
+          <Card className="bg-gradient-to-r from-indigo-900/30 to-violet-900/30 border-indigo-500/30">
+            <CardContent className="p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-indigo-500/20 text-indigo-400 shrink-0">
+                  <UserIcon className="w-5 h-5" />
+                </div>
+                <div className="text-center sm:text-left">
+                  <h4 className="text-sm font-bold text-white">Complete Your Profile</h4>
+                  <p className="text-xs text-zinc-400">Set your display name and email to customize your experience.</p>
+                </div>
+              </div>
+              <Button onClick={() => setIsEditing(true)} className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-4 h-9 shrink-0">
+                Complete Profile
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

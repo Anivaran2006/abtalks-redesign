@@ -76,7 +76,7 @@ export function TaskCard({ dayNumber, title, difficulty, estTime, skills }: Task
         <CardFooter className="relative z-10">
           <Link href={`/day/${dayNumber}`} className="w-full">
             <Button variant="primary" className="w-full gap-2 text-base h-12 group">
-              Continue Challenge
+              {dayNumber === 1 ? "Start Day 1 Challenge" : "Continue Challenge"}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
